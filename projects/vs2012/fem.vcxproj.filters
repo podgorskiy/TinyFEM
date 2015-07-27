@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="sources">
+      <UniqueIdentifier>{29A54460-12DE-CD4B-8400-73524A40E714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\PropertiesHolder">
+      <UniqueIdentifier>{aaaf58ea-d326-4b72-bba5-9e75d289e346}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\main.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\StdAfx.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Node2DStructural.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Material.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Shape2D.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\sources\IElement.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\IShape.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\TypeDefs.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Node2DStructural.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\XMLDataUtils.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\IValueList.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\INodeLists.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Material.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\PropertiesHolder\PropertiesHolder.h">
+      <Filter>sources\PropertiesHolder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\PropertiesHolder\PropertiesHolderImpl.h">
+      <Filter>sources\PropertiesHolder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Shape2D.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

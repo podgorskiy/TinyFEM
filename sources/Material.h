@@ -1,5 +1,10 @@
 #pragma once
 
+#include "TypeDefs.h"
+
+#include <Eigen/Dense>
+#include <Eigen/StdVector>
+
 namespace tfem
 {
 	class Material
@@ -12,14 +17,14 @@ namespace tfem
 
 		template <typename T>
 		bool DoesPropertyExists(const std::string& name) const;
-		
+
 		template <typename T>
 		T operator[](const char* name) const;
 
 		std::string GetID();
-		
+
 		float GetPoissonsRatio();
-		
+
 		float GetYoungsModulus();
 
 		Eigen::MatrixXf GetElasticityMatrix(fem::ProblemType type);
@@ -46,14 +51,14 @@ namespace tfem
 
 	template <typename T>
 	inline bool Material::DoesPropertyExists(const std::string& name) const
-	{ 
-		return m_properties.DoesPropertyExists<T>(name); 
+	{
+		return m_properties.DoesPropertyExists<T>(name);
 	};
 
 	template <typename T>
 	inline T Material::operator[](const char* name) const
-	{ 
-		return m_properties.operator[]<T>(name); 
+	{
+		return m_properties.operator[]<T>(name);
 	};
 
 	typedef boost::shared_ptr<Material> MaterialPtr;

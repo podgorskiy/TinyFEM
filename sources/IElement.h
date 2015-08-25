@@ -4,13 +4,43 @@ class INodeList;
 
 class IElement
 {
+	IElement(const IElement& other){};
 public:
 	IElement(){};
-	IElement(const IElement& other){};
 	virtual ~IElement(){};
-	
+
 	virtual const char* GetType()	{ return "None"; };
-	
-	virtual void AssignElasticityMatrix(const Eigen::MatrixXd& D) = 0;
-	virtual bool PrecomputeAndValidateGeometry() = 0;
 };
+
+class Linear2DElement
+{
+public:
+	virtual const char* GetType()	{ return "Linear2DElement"; };
+
+private:
+    float   m_K[36];
+    int	    m_nodes[3];
+    float   m_area;
+};
+
+class Elements
+{
+public:
+	void Init(int nodeCount);
+	float& operator ()(int i);
+
+private:
+	int m_elementsCount;
+	IElement** m_data;
+};
+
+inline void Elements::Init(int elementsCount)
+{
+    m_elementsCount = elementsCount;
+    m_data = new IElement*[m_elementsCount];
+}
+
+inline float& Elements::operator()(int i)
+{
+    return * (m_data + i);
+}

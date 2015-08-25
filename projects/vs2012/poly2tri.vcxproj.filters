@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="libs">
+      <UniqueIdentifier>{AACC7042-0238-25EE-63A1-705327E3A0D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\poly2tri">
+      <UniqueIdentifier>{F963872D-498D-5357-821F-2C5B230AD65A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\poly2tri\poly2tri">
+      <UniqueIdentifier>{F2B47738-7F40-F3B3-8E03-82B6F4EBECEC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\poly2tri\poly2tri\sweep">
+      <UniqueIdentifier>{4A61F5D7-5A9A-F958-8B45-7CB0930AC6D0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\poly2tri\poly2tri\common">
+      <UniqueIdentifier>{7D4868D6-121A-5BA8-084B-D699F470E7EE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\libs\poly2tri\poly2tri\poly2tri.h">
+      <Filter>libs\poly2tri\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\poly2tri\poly2tri\sweep\advancing_front.h">
+      <Filter>libs\poly2tri\poly2tri\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\poly2tri\poly2tri\sweep\cdt.h">
+      <Filter>libs\poly2tri\poly2tri\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\poly2tri\poly2tri\sweep\sweep.h">
+      <Filter>libs\poly2tri\poly2tri\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\poly2tri\poly2tri\sweep\sweep_context.h">
+      <Filter>libs\poly2tri\poly2tri\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\poly2tri\poly2tri\common\shapes.h">
+      <Filter>libs\poly2tri\poly2tri\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\poly2tri\poly2tri\common\utils.h">
+      <Filter>libs\poly2tri\poly2tri\common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\libs\poly2tri\poly2tri\sweep\advancing_front.cc">
+      <Filter>libs\poly2tri\poly2tri\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\poly2tri\poly2tri\sweep\sweep.cc">
+      <Filter>libs\poly2tri\poly2tri\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\poly2tri\poly2tri\sweep\sweep_context.cc">
+      <Filter>libs\poly2tri\poly2tri\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\poly2tri\poly2tri\sweep\cdt.cc">
+      <Filter>libs\poly2tri\poly2tri\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\poly2tri\poly2tri\common\shapes.cc">
+      <Filter>libs\poly2tri\poly2tri\common</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

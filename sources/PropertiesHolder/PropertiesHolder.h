@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include <boost/shared_ptr.hpp>
 
 namespace tfem
 {
@@ -18,7 +20,7 @@ namespace tfem
 		bool DoesPropertyExists(const std::string& name) const;
 
 		template <typename T>
-		T operator[](const char* name) const;
+		T operator[](const std::string& name) const;
 
 		void SetHolderName(const std::string& name);
 

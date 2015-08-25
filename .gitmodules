@@ -1,0 +1,3 @@
+[submodule "libs/SBMath"]
+	path = libs/SBMath
+	url = https://github.com/podgorskiy/SBMath.git

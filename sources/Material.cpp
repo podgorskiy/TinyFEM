@@ -1,5 +1,3 @@
-#include "StdAfx.h"
-
 #include "TypeDefs.h"
 
 #include "PropertiesHolder/PropertiesHolder.h"
@@ -14,18 +12,18 @@ Material::Material()
 }
 
 std::string Material::GetID()
-{ 
-	return m_properties.operator[]<std::string>("id"); 
+{
+	return m_properties.operator[]<std::string>("id");
 };
 
 float Material::GetPoissonsRatio()
-{ 
+{
 	return m_properties.operator[]<float>("PoissonsRatio");
 };
 
 float Material::GetYoungsModulus()
-{ 
-	return m_properties.operator[]<float>("YoungsModulus"); 
+{
+	return m_properties.operator[]<float>("YoungsModulus");
 };
 
 inline Eigen::MatrixXf Material::GetElasticityMatrix(fem::ProblemType type)

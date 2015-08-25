@@ -1,27 +1,20 @@
-#include "StdAfx.h"
+#include "PropertiesHolder/PropertiesHolder.h"
+
+#include "Material.h"
+
+#include "IElement.h"
+
 
 #define SEMT_USE_STD_VECTOR 1
 #define SEMT_DISABLE_PRINT 0
 
 #include <semt/Semtfwd.h>
-
 #include <semt/Semt.h>
 #include <semt/Shortcuts.h>
 
-#include "PropertiesHolder/PropertiesHolder.h"
+#include "XMLDataUtils.h"
 
-#include "Material.h"
-
-#include "IValueList.h"
-#include "INodeLists.h"
-
-#include "IShape.h"
-#include "Shape2D.h"
-#include "IElement.h"
-
-#include "Node2DStructural.h"
-
-#include <iostream>
+#include "Nodes.h"
 
 using Eigen::MatrixXd;
 
@@ -51,27 +44,27 @@ int main()
 	std::cout << dNcdy << std::endl << std::endl;
 	std::cout << dNsdx << std::endl << std::endl;
 	std::cout << dNsdy << std::endl << std::endl;
-	
+
 	//SEMT::Array x_0(2);
 	//x_0[0] = 0.1;
 	//x_0[1] = 0.1;
 
 	//std::cout << f << std::endl;
 	//std::cout << SEMT::deriv_t(f, x) << std::endl;
-	
-	xmldata::TiXmlDocumentPtr hDoc = xmldata::OpenXMLDoc("1.xml");
+
+	xmldata::TiXmlDocumentPtr hDoc = xmldata::OpenXMLDoc("test/1.xml");
 	TiXmlHandle hRoot(NULL);
 
 	{
-		TiXmlElement* pElem;							
+		TiXmlElement* pElem;
 		pElem = hDoc->FirstChildElement();
 		if(pElem == NULL)
 		{
 			LOGE("Document does not have root");
 			return 0;
-		}	
-		LOGI("Doc type: \t\t%s", pElem->Value());	
-		hRoot = TiXmlHandle(pElem);	
+		}
+		LOGI("Doc type: \t\t%s", pElem->Value());
+		hRoot = TiXmlHandle(pElem);
 	}
 
 	std::string author = xmldata::GetNodeText(hRoot.Node(), "asset/contributor/author");
@@ -83,10 +76,10 @@ int main()
 	std::string modified = xmldata::GetNodeText(hRoot.Node(), "asset/modified");
 	LOGI("Document modified:\t%s", modified.c_str());
 
-	LOGI("");
+	LOGI(" ");
 
 	TiXmlNode* materialLibrary = xmldata::GetNodeByPath(hRoot.Node(), "materials");
-	
+
 	typedef std::map<std::string, tfem::MaterialPtr> MaterialsLibrary;
 	MaterialsLibrary materialsLibrary;
 
@@ -99,7 +92,7 @@ int main()
 		materialsLibrary[matId] = material;
 
 		material->PushProperty("id", matId);
-		xmldata::foreachChild(matElement, "field", [material](TiXmlElement* field) 
+		xmldata::foreachChild(matElement, "field", [material](TiXmlElement* field)
 		{
 			std::string name;
 			xmldata::ParseValue(field, "name", name);
@@ -110,29 +103,55 @@ int main()
 				LOGI("\tproperty: \t%s: %f", name.c_str(), floatValue);
 			}
 			else
-			{				
+			{
 				LOGE("\tproperty: \t%s has erroneous property.", name.c_str());
 				return;
 			}
 		});
-		LOGI("");
+		LOGI(" ");
 	});
-	
-	NodeStructuralList nodesList;
-	nodesList.Init(fem::PD_TwoDimensional);
 
-	IVectorListPtr nodeCoordinatesList = nodesList.GetCoordinateList();
 
 	TiXmlNode* nodeElementList = xmldata::GetNodeByPath(hRoot.Node(), "NodeList");
-	xmldata::foreachChild(nodeElementList->ToElement(), "node", [&nodeCoordinatesList](TiXmlElement* nodeElement)
+	int nodesCount = 0;
+	xmldata::ParseValue(nodeElementList->ToElement(), "count", nodesCount);
+
+    Nodes nodes;
+    nodes.Init(2, nodesCount);
+
+	xmldata::foreachChild(nodeElementList->ToElement(), "node", [&nodes](TiXmlElement* nodeElement)
 	{
 		int i = 0;
 		bool hasI = xmldata::ParseValue(nodeElement, "i", i);
-		nodeCoordinatesList->PushNode(xmldata::ReadCoordinates<2>(nodeElement));
+		Eigen::Vector2d r = xmldata::ReadCoordinates<2>(nodeElement);
+        nodes(i, 0) = r(0);
+        nodes(i, 1) = r(1);
 	});
 
-	//typedef std::map<std::string, tfem::ElementPropertiesPtr> ElementLibrary;
+	TiXmlNode* elemetsElementList = xmldata::GetNodeByPath(hRoot.Node(), "ElementList");
+	int elementsCount = 0;
+	xmldata::ParseValue(elemetsElementList->ToElement(), "count", elementsCount);
 
+    Elements elements;
+    elements.Init(elementsCount);
+
+	xmldata::foreachChild(elemetsElementList->ToElement(), "element", [&elements](TiXmlElement* nodeElement)
+	{
+		int i = 0;
+		bool hasI = xmldata::ParseValue(nodeElement, "i", i);
+		std::string indices;
+		bool hasIndices = xmldata::ParseValue(nodeElement, "indices", indices);
+
+        if(hasI && hasIndices)
+        {
+            Linear2DElement* element = new Linear2DElement;
+            elements[i] = element;
+            element.SetIndices()
+        }
+	});
+
+    /*
+	//typedef std::map<std::string, tfem::ElementPropertiesPtr> ElementLibrary;
 	TiXmlNode* elementPropertiesElementList = xmldata::GetNodeByPath(hRoot.Node(), "ElementProperties");
 	xmldata::foreachChild(elementPropertiesElementList->ToElement(), "elementType", [](TiXmlElement* nodeElement)
 	{
@@ -164,45 +183,6 @@ int main()
 			LOGE("Wrong itegration type: %s", gaussIntegration.c_str());
 		}
 	});
-
-	TiXmlNode* elemetsElementList = xmldata::GetNodeByPath(hRoot.Node(), "ElementList");
-	xmldata::foreachChild(elemetsElementList->ToElement(), "element", [](TiXmlElement* nodeElement)
-	{
-		std::string typeId;
-		std::string indices;
-		float thickness;
-		bool hasTypeId = xmldata::ParseValue(nodeElement, "typeId", typeId);
-		bool hasIndices = xmldata::ParseValue(nodeElement, "indices", indices);
-		bool hasThickness = xmldata::ParseValue(nodeElement, "thickness", thickness);
-	});
-
-	std::vector<INodeID> v;
-	v.push_back(0);
-	v.push_back(2);
-	v.push_back(3);
-	v.push_back(4);
-	v.push_back(6);
-	
-	Shape2D triag(5);
-
-	IShape* shape = &triag;
-
-	shape->AssignNodeList(&nodesList);
-	shape->SetNodeIndices(v);
-
-	Shape2D::iterator it = shape->begin();
-	Shape2D::iterator itEnd = shape->end();
-
-	while (it != itEnd)
-	{
-		std::cout << *(it + 1) << std::endl;
-		std::cout << *(it - 1) << std::endl;
-		std::cout << *it++ << std::endl << std::endl;
-	}
-
-	std::cout << (*shape)[1] << std::endl;
-	
-	std::cout << shape->GetPositionByLocalIndex(3) << std::endl;
-
+	*/
 	return 0;
 }

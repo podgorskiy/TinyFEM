@@ -1,4 +1,9 @@
 #pragma once
+#include "Common.h"
+
+#include <boost/any.hpp>
+#include <map>
+
 using namespace tfem;
 
 class PropertiesHolder::PropertiesHolderImpl
@@ -25,16 +30,16 @@ class PropertiesHolder::PropertiesHolderImpl
 	private:
 		boost::any m_property;
 	};
-		
+
 public:
 	template <typename T>
 	void PushProperty(const std::string& name, const T& value);
-	
+
 	template <typename T>
 	bool DoesPropertyExists(const std::string& name) const;
-	
+
 	template <typename T>
-	T operator[](const char* name) const;
+	T operator[](const std::string& name) const;
 	void SetHolderName(const std::string& name);
 private:
 	std::map<std::string, Property> m_properties;
@@ -63,7 +68,7 @@ inline bool PropertiesHolder::PropertiesHolderImpl::DoesPropertyExists(const std
 };
 
 template <typename T>
-inline T PropertiesHolder::PropertiesHolderImpl::operator[](const char* name) const
+inline T PropertiesHolder::PropertiesHolderImpl::operator[](const std::string& name) const
 {
 	std::map<std::string, Property>::const_iterator it = m_properties.find(name);
 	if (it != m_properties.end())
@@ -72,9 +77,9 @@ inline T PropertiesHolder::PropertiesHolderImpl::operator[](const char* name) co
 		{
 			return T(it->second);
 		}
-		LOGE("Properties holder %s: property %s have wrong type.", m_name.c_str(), name);
+		LOGE("Properties holder %s: property %s have wrong type.", m_name.c_str(), name.c_str());
 	}
-	LOGE("Properties holder %s: property %s not found", m_name.c_str(), name);
+	LOGE("Properties holder %s: property %s not found", m_name.c_str(), name.c_str());
 	return T(NULL);
 }
 
@@ -88,19 +93,19 @@ inline void PropertiesHolder::PushProperty(const std::string& name, const T& val
 {
 	m_impl->PushProperty(name, value);
 }
-	
+
 template <typename T>
 inline bool PropertiesHolder::DoesPropertyExists(const std::string& name) const
 {
 	return m_impl->DoesPropertyExists<T>(name);
 }
-	
+
 template <typename T>
-inline T PropertiesHolder::operator[](const char* name) const
+inline T PropertiesHolder::operator[](const std::string& name) const
 {
 	return m_impl->operator[]<T>(name);
 }
-	
+
 inline void PropertiesHolder::SetHolderName(const std::string& name)
 {
 	m_impl->SetHolderName(name);

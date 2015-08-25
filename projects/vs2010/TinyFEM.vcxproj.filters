@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="sources">
+      <UniqueIdentifier>{0B665E2E-A347-3421-BE3E-566B194158EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\PropertiesHolder">
+      <UniqueIdentifier>{F0348313-7BDB-7FB3-F5ED-D89B8CB61B66}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\sources\XMLDataUtils.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Common.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Material.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\TypeDefs.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Nodes.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\IElement.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\PropertiesHolder\PropertiesHolderImpl.h">
+      <Filter>sources\PropertiesHolder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\PropertiesHolder\PropertiesHolder.h">
+      <Filter>sources\PropertiesHolder</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\main.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\XMLDataUtils.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Material.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

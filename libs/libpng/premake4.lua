@@ -9,9 +9,11 @@
       targetdir("lib")
 
       includedirs {
-         "../zlib/"
+         "../zlib"
       }
 
+	  flags {  "StaticRuntime", "FloatFast", "NoRTTI" }
+	  
       configuration "Debug"
          defines { "DEBUG" }
          flags { "Symbols" }

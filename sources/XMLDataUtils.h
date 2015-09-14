@@ -1,6 +1,8 @@
 #pragma once
 #include "Common.h"
 #include <string>
+#include <sstream>
+#include <vector>
 #include <boost/shared_ptr.hpp>
 #include <tinyxml.h>
 #include <Eigen/Dense>
@@ -16,13 +18,14 @@ namespace xmldata
 
 	std::string GetNodeText(TiXmlNode* node, const std::string& path);
 
-	inline void foreachChild(TiXmlElement* node, std::string field, std::function< void(TiXmlElement* pElem) > f)
+	template <typename T>
+	inline void foreachChild(TiXmlElement* node, std::string field, T functor)
 	{
 		for (TiXmlElement* pChild = node->FirstChildElement(); pChild != 0; pChild = pChild->NextSiblingElement())
 		{
 			if (pChild->Value() == field)
 			{
-				f(pChild);
+				functor(pChild);
 			}
 		}
 	}
@@ -30,8 +33,15 @@ namespace xmldata
 	template<typename T>
 	inline bool ParseValue(const std::string& str, T& returnVal)
 	{
-        std::istringstream stream(str);
-        return (stream >> returnVal && stream.eof());
+		std::istringstream stream(str);
+		return (stream >> returnVal && stream.eof());
+	}
+
+	template<>
+	inline bool ParseValue<std::string>(const std::string& str, std::string& returnVal)
+	{
+		returnVal = str;
+		return true;
 	}
 
 	template<typename T>
@@ -93,4 +103,18 @@ namespace xmldata
 		return position;
 	}
 
+	inline std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+		std::stringstream ss(s);
+		std::string item;
+		while (std::getline(ss, item, delim)) {
+			elems.push_back(item);
+		}
+		return elems;
+	}
+	
+	inline std::vector<std::string> split(const std::string &s, char delim) {
+		std::vector<std::string> elems;
+		split(s, delim, elems);
+		return elems;
+	}
 }

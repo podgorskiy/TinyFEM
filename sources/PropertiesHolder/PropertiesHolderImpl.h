@@ -59,7 +59,7 @@ inline void PropertiesHolder::PropertiesHolderImpl::PushProperty(const std::stri
 template <typename T>
 inline bool PropertiesHolder::PropertiesHolderImpl::DoesPropertyExists(const std::string& name) const
 {
-	auto it = m_properties.find(name);
+	std::map<std::string, Property>::const_iterator it = m_properties.find(name);
 	if (it != m_properties.end())
 	{
 		return it->second.CheckType<T>();

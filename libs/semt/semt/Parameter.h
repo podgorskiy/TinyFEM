@@ -16,7 +16,7 @@ namespace SEMT
  * @ingroup nodes
  */
 template<int index, char name>
-class Parameter
+struct Parameter
 {
 public:
     typedef Parameter<index> simple_type;

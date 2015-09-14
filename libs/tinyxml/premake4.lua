@@ -7,6 +7,8 @@
       excludes { "xmltest*" }
 
       targetdir("lib")
+	  
+	  flags {  "StaticRuntime", "FloatFast" }
 
       configuration "Debug"
          defines { "DEBUG" }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FEM_INPUT>
+
+  <asset>
+    <contributor>
+      <author>stanislav.podgorskiy</author>
+      <authoring_tool>fem</authoring_tool>
+    </contributor>
+    <created>2014-11-11T01:44:14</created>
+    <modified>2014-11-11T01:44:14</modified>
+  </asset>
+
+  <problem_properties>
+	<field name="type" value="FlatPlate"/>
+	<field name="time" value="Constant"/>
+  </problem_properties>
+
+  <materials>
+  	<material id = "steel" >
+  		<field name="PoissonsRatio" value="0.3"/>	
+  		<field name="YoungsModulus" value="200000000000"/>	
+  	</material>
+  </materials>
+
+  <NodeList count = "6">
+  	<node i = "0" x = "0.01" y = "0.03"/>
+  	<node i = "1" x = "1.0" y = "0.0"/>
+  	<node i = "2" x = "1.0" y = "1.0"/>
+  	<node i = "3" x = "0.0" y = "1.0"/>
+  	<node i = "4" x = "1.0" y = "2.0"/>
+  	<node i = "5" x = "0.0" y = "2.0"/>
+  </NodeList>
+
+  <ElementList count = "4" type = "Linear2D">
+  	<element i = "0" indices = "0 1 2"/>
+  	<element i = "1" indices = "0 2 3"/>
+  	<element i = "2" indices = "3 2 4"/>
+  	<element i = "3" indices = "3 4 5"/>
+  </ElementList>
+
+  <ConstraintsList>
+	<constraint type = "displacement" node = "0" property = "xy"/>
+	<constraint type = "displacement" node = "1" property = "xy"/>
+  </ConstraintsList>
+  
+  <ElementProperties>
+    <elementType id = "plate" type = "Flat2DStructural" NodesCount = "3" gaussIntegration = "3x3"/>
+  </ElementProperties>
+
+  <LoadSets>
+	<loadset id = "load"  factorId= "k" type = "constant">
+  </LoadSets>
+  
+  <Factors>
+	<factor id = "k" type= "const">
+		<time t = "0.0" value = "1.0"/>
+	</factor>
+  </Factors>
+  
+</FEM_INPUT>

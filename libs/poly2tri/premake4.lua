@@ -7,6 +7,8 @@
 
       targetdir("lib")
 
+	  flags {  "StaticRuntime", "FloatFast" }
+	  
       configuration "Debug"
          defines { "DEBUG" }
          flags { "Symbols" }

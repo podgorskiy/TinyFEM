@@ -2,6 +2,8 @@
 	\brief Contains common defines and includes
 	It contain some usefull logging and assert defines. */
 
+#include <cstdio>
+
 #pragma once
 
 #pragma warning(error:  4239)

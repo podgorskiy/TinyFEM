@@ -3,7 +3,7 @@
 #ifndef BOOST_ANY_INCLUDED
 #define BOOST_ANY_INCLUDED
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
@@ -15,12 +15,11 @@
 // when:  July 2001, April 2013 - May 2013
 
 #include <algorithm>
+#include <typeinfo>
 
 #include "boost/config.hpp"
-#include <boost/type_index.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 #include <boost/type_traits/decay.hpp>
-#include <boost/type_traits/remove_cv.hpp>
 #include <boost/type_traits/add_reference.hpp>
 #include <boost/type_traits/is_reference.hpp>
 #include <boost/type_traits/is_const.hpp>
@@ -29,6 +28,22 @@
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/is_const.hpp>
+
+// See boost/python/type_id.hpp
+// TODO: add BOOST_TYPEID_COMPARE_BY_NAME to config.hpp
+# if (defined(__GNUC__) && __GNUC__ >= 3) \
+ || defined(_AIX) \
+ || (   defined(__sgi) && defined(__host_mips)) \
+ || (defined(__hpux) && defined(__HP_aCC)) \
+ || (defined(linux) && defined(__INTEL_COMPILER) && defined(__ICC))
+#  define BOOST_AUX_ANY_TYPE_ID_NAME
+#include <cstring>
+# endif 
+
+#if defined(_MSC_VER) 
+#pragma warning(push)
+#pragma warning(disable: 4172) // Mistakenly warns: returning address of local variable or temporary
+#endif
 
 namespace boost
 {
@@ -43,9 +58,7 @@ namespace boost
 
         template<typename ValueType>
         any(const ValueType & value)
-          : content(new holder<
-                BOOST_DEDUCED_TYPENAME remove_cv<BOOST_DEDUCED_TYPENAME decay<const ValueType>::type>::type
-            >(value))
+          : content(new holder<BOOST_DEDUCED_TYPENAME decay<const ValueType>::type>(value))
         {
         }
 
@@ -135,11 +148,12 @@ namespace boost
         {
             any().swap(*this);
         }
-
-        const boost::typeindex::type_info& type() const BOOST_NOEXCEPT
+#ifndef BOOST_NO_RTTI
+        const std::type_info & type() const BOOST_NOEXCEPT
         {
-            return content ? content->type() : boost::typeindex::type_id<void>().type_info();
+            return content ? content->type() : typeid(void);
         }
+#endif
 
 #ifndef BOOST_NO_MEMBER_TEMPLATE_FRIENDS
     private: // types
@@ -157,7 +171,9 @@ namespace boost
 
         public: // queries
 
-            virtual const boost::typeindex::type_info& type() const BOOST_NOEXCEPT = 0;
+#ifndef BOOST_NO_RTTI
+            virtual const std::type_info & type() const BOOST_NOEXCEPT = 0;
+#endif
 
             virtual placeholder * clone() const = 0;
 
@@ -181,10 +197,12 @@ namespace boost
 #endif
         public: // queries
 
-            virtual const boost::typeindex::type_info& type() const BOOST_NOEXCEPT
+#ifndef BOOST_NO_RTTI
+            virtual const std::type_info & type() const BOOST_NOEXCEPT
             {
-                return boost::typeindex::type_id<ValueType>().type_info();
+                return typeid(ValueType);
             }
+#endif
 
             virtual placeholder * clone() const
             {
@@ -224,12 +242,7 @@ namespace boost
         lhs.swap(rhs);
     }
 
-    class BOOST_SYMBOL_VISIBLE bad_any_cast :
-#ifndef BOOST_NO_RTTI
-        public std::bad_cast
-#else
-        public std::exception
-#endif
+    class BOOST_SYMBOL_VISIBLE bad_any_cast : public std::bad_cast
     {
     public:
         virtual const char * what() const BOOST_NOEXCEPT_OR_NOTHROW
@@ -242,8 +255,17 @@ namespace boost
     template<typename ValueType>
     ValueType * any_cast(any * operand) BOOST_NOEXCEPT
     {
-        return operand && operand->type() == boost::typeindex::type_id<ValueType>()
-            ? &static_cast<any::holder<BOOST_DEDUCED_TYPENAME remove_cv<ValueType>::type> *>(operand->content)->held
+        return operand && 
+#ifndef BOOST_NO_RTTI
+#ifdef BOOST_AUX_ANY_TYPE_ID_NAME
+            std::strcmp(operand->type().name(), typeid(ValueType).name()) == 0
+#else
+            operand->type() == typeid(ValueType)
+#endif
+#else
+			true
+#endif
+            ? &static_cast<any::holder<ValueType> *>(operand->content)->held
             : 0;
     }
 
@@ -258,6 +280,15 @@ namespace boost
     {
         typedef BOOST_DEDUCED_TYPENAME remove_reference<ValueType>::type nonref;
 
+#ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+        // If 'nonref' is still reference type, it means the user has not
+        // specialized 'remove_reference'.
+
+        // Please use BOOST_BROKEN_COMPILER_TYPE_TRAITS_SPECIALIZATION macro
+        // to generate specialization of remove_reference for your class
+        // See type traits library documentation for details
+        BOOST_STATIC_ASSERT(!is_reference<nonref>::value);
+#endif
 
         nonref * result = any_cast<nonref>(&operand);
         if(!result)
@@ -280,19 +311,26 @@ namespace boost
     inline ValueType any_cast(const any & operand)
     {
         typedef BOOST_DEDUCED_TYPENAME remove_reference<ValueType>::type nonref;
+
+#ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+        // The comment in the above version of 'any_cast' explains when this
+        // assert is fired and what to do.
+        BOOST_STATIC_ASSERT(!is_reference<nonref>::value);
+#endif
+
         return any_cast<const nonref &>(const_cast<any &>(operand));
     }
 
 #ifndef BOOST_NO_CXX11_RVALUE_REFERENCES
     template<typename ValueType>
-    inline ValueType any_cast(any&& operand)
+    inline ValueType&& any_cast(any&& operand)
     {
         BOOST_STATIC_ASSERT_MSG(
-            boost::is_rvalue_reference<ValueType&&>::value /*true if ValueType is rvalue or just a value*/
+            boost::is_rvalue_reference<ValueType&&>::value 
             || boost::is_const< typename boost::remove_reference<ValueType>::type >::value,
             "boost::any_cast shall not be used for getting nonconst references to temporary objects" 
         );
-        return any_cast<ValueType>(operand);
+        return any_cast<ValueType&&>(operand);
     }
 #endif
 
@@ -320,5 +358,9 @@ namespace boost
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
 #endif

@@ -109,8 +109,8 @@
 //  #   define BOOST_ALIGNMENT_OF(T) __alignof(T)
 
 #   if defined(_MSC_VER) && (_MSC_VER >= 1700)
-#       define BOOST_HAS_TRIVIAL_MOVE_CONSTRUCTOR(T) ((__has_trivial_move_constructor(T) || __is_pod(T)) && !::boost::is_volatile<T>::value && !::boost::is_reference<T>::value)
-#       define BOOST_HAS_TRIVIAL_MOVE_ASSIGN(T) ((__has_trivial_move_assign(T) || __is_pod(T)) && ! ::boost::is_const<T>::value && !::boost::is_volatile<T>::value && !::boost::is_reference<T>::value)
+#       define BOOST_HAS_TRIVIAL_MOVE_CONSTRUCTOR(T) ((__has_trivial_move_constructor(T) || ::boost::is_pod<T>::value) && !::boost::is_volatile<T>::value)
+#       define BOOST_HAS_TRIVIAL_MOVE_ASSIGN(T) ((__has_trivial_move_assign(T) || ::boost::is_pod<T>::value) && ! ::boost::is_const<T>::value && !::boost::is_volatile<T>::value)
 #   endif
 
 #   define BOOST_HAS_TYPE_TRAITS_INTRINSICS
@@ -181,7 +181,8 @@
 #     define BOOST_IS_CLASS(T) __is_class(T)
 #   endif
 #   if __has_feature(is_convertible_to)
-#     define BOOST_IS_CONVERTIBLE(T,U) __is_convertible_to(T,U)
+#     include <boost/type_traits/is_abstract.hpp>
+#     define BOOST_IS_CONVERTIBLE(T,U) (__is_convertible_to(T,U) && !::boost::is_abstract<U>::value)
 #   endif
 #   if __has_feature(is_enum)
 #     define BOOST_IS_ENUM(T) __is_enum(T)
@@ -196,9 +197,6 @@
 #     define BOOST_HAS_TRIVIAL_MOVE_ASSIGN(T) __has_trivial_move_assign(T)
 #   endif
 #   define BOOST_ALIGNMENT_OF(T) __alignof(T)
-#   if __has_feature(is_final)
-#     define BOOST_IS_FINAL(T) __is_final(T)
-#   endif
 
 #   define BOOST_HAS_TYPE_TRAITS_INTRINSICS
 #endif
@@ -237,9 +235,6 @@
       // old implementation instead in that case:
 #     define BOOST_ALIGNMENT_OF(T) __alignof__(T)
 #   endif
-#   if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 7))
-#     define BOOST_IS_FINAL(T) __is_final(T)
-#   endif
 
 #   define BOOST_HAS_TYPE_TRAITS_INTRINSICS
 #endif
@@ -267,6 +262,7 @@
 #   define BOOST_IS_ENUM(T) __is_enum(T)
 #   define BOOST_IS_POLYMORPHIC(T) __is_polymorphic(T)
 #   define BOOST_ALIGNMENT_OF(T) __alignof__(T)
+
 #   define BOOST_HAS_TYPE_TRAITS_INTRINSICS
 #endif
 

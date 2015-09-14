@@ -31,7 +31,9 @@ inline Eigen::MatrixXf Material::GetElasticityMatrix(fem::ProblemType type)
 	float nu = GetPoissonsRatio();
 	float E = GetYoungsModulus();
 
-	std::function<Eigen::MatrixXf()> flatStress = [nu, E]()
+	switch (type)
+	{
+	case fem::PT_FlatStress:
 	{
 		Eigen::Matrix<float, 3, 3> m;
 		m.setIdentity();
@@ -40,8 +42,8 @@ inline Eigen::MatrixXf Material::GetElasticityMatrix(fem::ProblemType type)
 		m(2, 2) = (1.0f - nu) / 2.0f;
 		m *= E / (1.0f - nu * nu);
 		return m;
-	};
-	std::function<Eigen::MatrixXf()> flatStrain = [nu, E]()
+	}
+	case fem::PT_FlatStraing:
 	{
 		Eigen::Matrix<float, 3, 3> m;
 		m.setIdentity();
@@ -50,8 +52,8 @@ inline Eigen::MatrixXf Material::GetElasticityMatrix(fem::ProblemType type)
 		m(2, 2) = (1.0f - 2.0f * nu) / 2.0f / (1.0f - nu);
 		m *= E * (1.0f - nu) / (1.0f + nu) / (1.0f - 2.0f * nu);
 		return m;
-	};
-	std::function<Eigen::MatrixXf()> volumetricStressStrain = [nu, E]()
+	}
+	case fem::PT_VolumetricStressStrain:
 	{
 		Eigen::Matrix<float, 6, 6> m;
 		m.setIdentity();
@@ -61,15 +63,6 @@ inline Eigen::MatrixXf Material::GetElasticityMatrix(fem::ProblemType type)
 		m(5, 5) = m(4, 4) = m(3, 3) = tmp2;
 		m *= E * (1.0f - nu) / (1.0f + nu) / (1.0f - 2.0f * nu);
 		return m;
-	};
-
-	switch (type)
-	{
-	case fem::PT_FlatStress:
-		return flatStress();
-	case fem::PT_FlatStraing:
-		return flatStrain();
-	case fem::PT_VolumetricStressStrain:
-		return volumetricStressStrain();
+	}
 	}
 }

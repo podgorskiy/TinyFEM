@@ -31,7 +31,7 @@ ElementFabric::Generator ElementFabric::GetGenerator(const std::string& type)
 	{
 		return it->second;
 	}
-	return false;
+	return NULL;
 }
 
 IElement* ElementFabric::CreateElement(const std::string& type)

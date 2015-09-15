@@ -36,6 +36,7 @@ void MainMenuRenderer::RenderMainMenu()
 
 void MainMenuRenderer::ShowMenuFile()
 {
+#ifndef __EMSCRIPTEN__
 	if (ImGui::MenuItem("New")) {
 		m_newFileSignal();
 	}
@@ -61,6 +62,14 @@ void MainMenuRenderer::ShowMenuFile()
 	{
 		m_closeSignal();
 	}
+#else
+    ImGui::MenuItem("Web version cannot open user files.", NULL, false, false);
+    ImGui::MenuItem("You may open only embedded examples,", NULL, false, false);
+    ImGui::MenuItem("that are listed below", NULL, false, false);
+	if (ImGui::MenuItem("Open example 1")) {
+		m_openExampleSignal(1);
+	}
+#endif
 }
 
 void MainMenuRenderer::ShowMenuWindow()

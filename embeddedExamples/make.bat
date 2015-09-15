@@ -1,0 +1,1 @@
+call ..\tools\bin2cRelease.exe -f ..\test\1.inp -o embeddedExample1.h -n embeddedExample1

@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 
 #include "IElement.h"
+#include "StrideDataFixedArray.h"
 #include <vector>
 #include <cassert>
 
@@ -13,8 +14,13 @@ public:
 
 	static IElement* Create();
 
+	virtual void CalcK(const StrideDataFixedArray& nodes, const tfem::Material* mat);
+	virtual void GrabTriplets(std::vector<Eigen::Triplet<float> >& tripletVector) const;
+
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 private:
-	float   m_K[36];
+	Eigen::Matrix<float, 3, 6> m_B;
+	Eigen::Matrix<float, 6, 6> m_K;
 	int	    m_nodes[3];
 	float   m_area;
 };

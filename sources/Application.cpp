@@ -24,6 +24,8 @@
 
 #include <boost/bind.hpp>
 
+#include "../embeddedExamples/embeddedExample1.h"
+
 void Application::OpenFile()
 {
 	if (m_openstate.OpenFile())
@@ -32,6 +34,22 @@ void Application::OpenFile()
 		m_meshRenderer->Clear();
 		m_meshRenderer->AddMesh(m_problem.GetNodes(), m_problem.GetElements(), StrideDataFixedArray());
 	}
+}
+
+void Application::OpenExample(int i)
+{
+	std::vector<char> file;
+
+	if (i == 1)
+	{
+		file.resize(sizeof(embeddedExample1));
+		memcpy(&file[0], embeddedExample1, sizeof(embeddedExample1));
+	}
+
+	file.push_back(0);
+	m_problem.OpenFromMemory(&file[0]);
+	m_meshRenderer->Clear();
+	m_meshRenderer->AddMesh(m_problem.GetNodes(), m_problem.GetElements(), StrideDataFixedArray());
 }
 
 void Application::SaveFile()
@@ -87,6 +105,7 @@ void Application::init(int /*_argc*/, char** /*_argv*/)
 	m_guiRenderer->m_saveAsFileSignal.connect(boost::bind(&Application::SaveFileAs, this));
 	m_guiRenderer->m_openFileSignal.connect(boost::bind(&Application::OpenFile, this));
 	m_guiRenderer->m_showMeshViewOptions.connect(boost::bind(&MeshRenderer::ShowMeshViewOptions, m_meshRenderer));
+	m_guiRenderer->m_openExampleSignal.connect(boost::bind(&Application::OpenExample, this, _1));
 }
 
 void Application::RequestClose()
@@ -153,7 +172,7 @@ bool Application::update()
 
 	m_guiRenderer->RenderMainMenu();
 	
-	ImGui::ShowTestWindow();
+	//ImGui::ShowTestWindow();
 
 	// Set view 0 default viewport.
 	bgfx::setViewRect(0, 0, 0, m_width, m_height);

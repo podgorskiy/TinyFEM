@@ -1,20 +1,6 @@
-#include <iostream>
-#include <string>
-
-#define SEMT_USE_STD_VECTOR 1
-#define SEMT_DISABLE_PRINT 0
-/*
-#include <semt/Semt.h>
-#include <semt/Shortcuts.h>
-*/
-
-#include "Application.h"
-
 int _main_NOTUSED(int /*_argc*/, char** /*_argv*/)
 {
 	/*
-	DVAR(Eta, 0);
-	DVAR(Xi, 1);
 
 #define  _1 SEMT::Expr<SEMT::Integer<1> >()
 #define  _2 SEMT::Expr<SEMT::Integer<2> >()
@@ -38,9 +24,6 @@ int _main_NOTUSED(int /*_argc*/, char** /*_argv*/)
 	std::cout << dNsdx << std::endl << std::endl;
 	std::cout << dNsdy << std::endl << std::endl;
 	*/
-	Problem* problem = new Problem;
-	problem->OpenFromFile("test/1.xml");
-
 
 	//SEMT::Array x_0(2);
 	//x_0[0] = 0.1;

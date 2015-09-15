@@ -16,17 +16,17 @@ std::string Material::GetID()
 	return m_properties.operator[]<std::string>("id");
 };
 
-float Material::GetPoissonsRatio()
+float Material::GetPoissonsRatio() const
 {
 	return m_properties.operator[]<float>("PoissonsRatio");
 };
 
-float Material::GetYoungsModulus()
+float Material::GetYoungsModulus() const
 {
 	return m_properties.operator[]<float>("YoungsModulus");
 };
 
-inline Eigen::MatrixXf Material::GetElasticityMatrix(fem::ProblemType type)
+Eigen::MatrixXf Material::GetElasticityMatrix(fem::ProblemType type) const
 {
 	float nu = GetPoissonsRatio();
 	float E = GetYoungsModulus();

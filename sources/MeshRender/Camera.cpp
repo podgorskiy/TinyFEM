@@ -1,4 +1,3 @@
-#pragma once
 #include "Camera.h"
 
 #include <entry/entry.h>

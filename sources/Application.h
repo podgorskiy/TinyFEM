@@ -22,6 +22,7 @@ public:
 	void RequestClose();
 
 	void OpenFile();
+	void OpenExample(int i);
 	void CloseFile();
 	void SaveFile();
 	void SaveFileAs();

@@ -6,7 +6,7 @@ typedef IElement* PIElement;
 class ElementsContainer
 {
 	ElementsContainer(const ElementsContainer& other){};
-	const ElementsContainer& operator()(const ElementsContainer& other){};
+	void operator=(const ElementsContainer& other){};
 public:
 	ElementsContainer();
 	~ElementsContainer();

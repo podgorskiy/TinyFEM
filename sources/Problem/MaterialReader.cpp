@@ -7,7 +7,7 @@ void ReadFieldFunctor::operator()(TiXmlElement* field)
 {
 	std::string name;
 	xmldata::ParseValue(field, "name", name);
-	double floatValue = 0.0f;
+	float floatValue = 0.0f;
 	if (xmldata::ParseValue(field, "value", floatValue))
 	{
 		material->PushProperty(name, floatValue);

@@ -18,12 +18,12 @@
   <materials>
   	<material id = "steel" >
   		<field name="PoissonsRatio" value="0.3"/>	
-  		<field name="YoungsModulus" value="200000000000"/>	
+  		<field name="YoungsModulus" value="2000"/>	
   	</material>
   </materials>
 
   <NodeList count = "6">
-  	<node i = "0" x = "0.01" y = "0.03"/>
+  	<node i = "0" x = "0.0" y = "0.0"/>
   	<node i = "1" x = "1.0" y = "0.0"/>
   	<node i = "2" x = "1.0" y = "1.0"/>
   	<node i = "3" x = "0.0" y = "1.0"/>
@@ -38,23 +38,18 @@
   	<element i = "3" indices = "3 4 5"/>
   </ElementList>
 
-  <ConstraintsList>
-	<constraint type = "displacement" node = "0" property = "xy"/>
-	<constraint type = "displacement" node = "1" property = "xy"/>
-  </ConstraintsList>
+  <NodalForceList>
+  	<force node = "4" x = "0.0" y = "100.0"/>
+  	<force node = "5" x = "0.0" y = "100.0"/>
+  </NodalForceList>
   
+  <NodalConstraintList>
+  	<const node = "0" type = "UXY"/>
+  	<const node = "1" type = "UXY"/>
+  </NodalConstraintList>
+    
   <ElementProperties>
     <elementType id = "plate" type = "Flat2DStructural" NodesCount = "3" gaussIntegration = "3x3"/>
   </ElementProperties>
-
-  <LoadSets>
-	<loadset id = "load"  factorId= "k" type = "constant">
-  </LoadSets>
-  
-  <Factors>
-	<factor id = "k" type= "const">
-		<time t = "0.0" value = "1.0"/>
-	</factor>
-  </Factors>
   
 </FEM_INPUT>

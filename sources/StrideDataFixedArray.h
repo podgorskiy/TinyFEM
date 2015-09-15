@@ -5,7 +5,7 @@ class StrideDataFixedArray
 {
 private:
 	StrideDataFixedArray(const StrideDataFixedArray& other){};
-	StrideDataFixedArray& operator= (const StrideDataFixedArray& other){};
+	void operator= (const StrideDataFixedArray& other){};
 public:
 	StrideDataFixedArray();
 	~StrideDataFixedArray();

@@ -23,11 +23,11 @@ namespace tfem
 
 		std::string GetID();
 
-		float GetPoissonsRatio();
+		float GetPoissonsRatio() const;
 
-		float GetYoungsModulus();
+		float GetYoungsModulus() const;
 
-		Eigen::MatrixXf GetElasticityMatrix(fem::ProblemType type);
+		Eigen::MatrixXf GetElasticityMatrix(fem::ProblemType type) const;
 
 	private:
 		PropertiesHolder m_properties;

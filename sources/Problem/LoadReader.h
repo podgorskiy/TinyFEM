@@ -2,16 +2,18 @@
 #include "Load.h"
 
 class StrideDataFixedArray;
+class IndexedStrideDataFixedArray;
 class TiXmlElement;
 
 class ReadNodalForceFunctor
 {
 public:
-	ReadNodalForceFunctor(NodalForceList& loads);
+	ReadNodalForceFunctor(IndexedStrideDataFixedArray& loads);
 	void operator()(TiXmlElement* loadElement);
 
 private:
-	NodalForceList& loads;
+	int m_iterator;
+	IndexedStrideDataFixedArray& loads;
 };
 
 class ReadNodalConstraintFunctor

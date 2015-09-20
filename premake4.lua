@@ -65,7 +65,7 @@ solution "TinyFEM"
 	configuration {"Release"}
 		flags { "Optimize" }	
 
-	targetextension ".bc"
+	--targetextension ".bc"
 
 function copyLib()
 end
@@ -101,7 +101,8 @@ project "TinyFEM"
 		"libs/bx/include",
 		"libs/bgfx/include",	
 		"libs/bx/include",
-		"libs/bgfx/examples/common"
+		"libs/bgfx/examples/common",
+		"libs/boost"
 	}	
   	
 		

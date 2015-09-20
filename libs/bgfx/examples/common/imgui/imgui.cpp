@@ -602,7 +602,7 @@ struct Imgui
 
 		m_missingTexture = genMissingTexture(256, 256, 0.04f);
 
-#if !USE_NANOVG_FONT
+#if USE_NANOVG_FONT
 		const ImguiFontHandle handle = createFont(_data, _fontSize);
 		m_currentFontIdx = handle.idx;
 #else
@@ -844,6 +844,8 @@ struct Imgui
 		bgfx::setViewName(_view, "IMGUI");
 		bgfx::setViewSeq(_view, true);
 
+		float c = 0.0f;// 0.5f;
+
 		const bgfx::HMD* hmd = bgfx::getHMD();
 		if (NULL != hmd && 0 != (hmd->flags & BGFX_HMD_RENDERING) )
 		{
@@ -871,7 +873,7 @@ struct Imgui
 		else
 		{
 			float ortho[16];
-			bx::mtxOrtho(ortho, 0.0f, (float)m_surfaceWidth, (float)m_surfaceHeight, 0.0f, 0.0f, 1000.0f);
+			bx::mtxOrtho(ortho, 0.0f + c, (float)m_surfaceWidth + c, (float)m_surfaceHeight + c, 0.0f + c, 0.0f, 1000.0f);
 			bgfx::setViewTransform(_view, NULL, ortho);
 			bgfx::setViewRect(_view, 0, 0, _width, _height);
 		}

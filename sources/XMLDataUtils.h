@@ -7,6 +7,7 @@
 #include <tinyxml.h>
 #include <Eigen/Dense>
 #include <Eigen/StdVector>
+#include <boost/algorithm/string/trim.hpp>
 
 namespace xmldata
 {
@@ -47,13 +48,15 @@ namespace xmldata
 	template<typename T>
 	inline bool ParseValue(TiXmlElement* nodeElement, const std::string& name, T& returnVal)
 	{
-		const char* str = nodeElement->Attribute(name.c_str());
-		if(str == NULL)
+		const char* str_c = nodeElement->Attribute(name.c_str());
+		if (str_c == NULL)
 		{
 			return false;
 		}
 		else
 		{
+			std::string str = str_c;
+			boost::trim(str);
 			return ParseValue(str, returnVal);
 		}
 	}
@@ -101,20 +104,5 @@ namespace xmldata
 			LOGE("Wrong coordinate set in node %s", nodeElement->Value());
 		}
 		return position;
-	}
-
-	inline std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
-		std::stringstream ss(s);
-		std::string item;
-		while (std::getline(ss, item, delim)) {
-			elems.push_back(item);
-		}
-		return elems;
-	}
-	
-	inline std::vector<std::string> split(const std::string &s, char delim) {
-		std::vector<std::string> elems;
-		split(s, delim, elems);
-		return elems;
 	}
 }

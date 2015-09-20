@@ -27,6 +27,8 @@ public:
 	void SaveFile();
 	void SaveFileAs();
 private:
+	void ShowJobView();
+	void ResetJobViewWindowPosition(bool force);
 	uint32_t m_width;
 	uint32_t m_height;
 	uint32_t m_debug;
@@ -38,4 +40,6 @@ private:
 	Problem m_problem;
 	MeshRenderer* m_meshRenderer;
 	Camera m_camera;
+
+	bool m_showJobView;
 };

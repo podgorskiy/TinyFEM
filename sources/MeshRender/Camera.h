@@ -19,6 +19,7 @@ public:
 	void Update(const entry::MouseState& _mouseState);
 	void UpplyTransform();
 	void SetPosition(const float* _pos);
+	void SetFOV(float fov);
 	void SetWidthHeight(int width, int height);
 
 	void GetViewProj(float* dest) const;

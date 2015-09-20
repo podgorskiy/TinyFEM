@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FEM_INPUT>
+
+  <problem_properties>
+	<field name="type" value="FlatPlate"/>
+	<field name="time" value="Constant"/>
+  </problem_properties>
+
+  <materials>
+  	<material id = "steel" >
+  		<field name="PoissonsRatio" value="0.3"/>	
+  		<field name="YoungsModulus" value="2000"/>	
+  	</material>
+  </materials>
+
+  <NodeList count = "146"> 	
+	<node i = "	0	" x = "	0	" y = "	28.75	"/>
+  	<node i = "	1	" x = "	26.25	" y = "	28.75	"/>
+  	<node i = "	2	" x = "	0	" y = "	5	"/>
+  	<node i = "	3	" x = "	4.7552824	" y = "	1.54508495	"/>
+  	<node i = "	4	" x = "	4.04508495	" y = "	2.93892622	"/>
+  	<node i = "	5	" x = "	2.93892622	" y = "	4.04508495	"/>
+  	<node i = "	6	" x = "	1.54508495	" y = "	4.7552824	"/>
+  	<node i = "	7	" x = "	5	" y = "	0	"/>
+  	<node i = "	8	" x = "	26.25	" y = "	0	"/>
+  	<node i = "	9	" x = "	3.75	" y = "	28.75	"/>
+  	<node i = "	10	" x = "	7.5	" y = "	28.75	"/>
+  	<node i = "	11	" x = "	11.25	" y = "	28.75	"/>
+  	<node i = "	12	" x = "	15	" y = "	28.75	"/>
+  	<node i = "	13	" x = "	18.75	" y = "	28.75	"/>
+  	<node i = "	14	" x = "	22.5	" y = "	28.75	"/>
+  	<node i = "	15	" x = "	0	" y = "	5.55664063	"/>
+  	<node i = "	16	" x = "	0	" y = "	6.484375	"/>
+  	<node i = "	17	" x = "	0	" y = "	8.95833302	"/>
+  	<node i = "	18	" x = "	0	" y = "	12.916667	"/>
+  	<node i = "	19	" x = "	0	" y = "	16.875	"/>
+  	<node i = "	20	" x = "	0	" y = "	20.833334	"/>
+  	<node i = "	21	" x = "	0	" y = "	24.791666	"/>
+  	<node i = "	22	" x = "	4.98458672	" y = "	0.39229548	"/>
+  	<node i = "	23	" x = "	4.93844175	" y = "	0.782172322	"/>
+  	<node i = "	24	" x = "	4.86184978	" y = "	1.16722679	"/>
+  	<node i = "	25	" x = "	4.61939764	" y = "	1.91341722	"/>
+  	<node i = "	26	" x = "	4.45503283	" y = "	2.26995254	"/>
+  	<node i = "	27	" x = "	4.26320076	" y = "	2.6124928	"/>
+  	<node i = "	28	" x = "	3.80202985	" y = "	3.2472403	"/>
+  	<node i = "	29	" x = "	3.53553391	" y = "	3.53553391	"/>
+  	<node i = "	30	" x = "	3.2472403	" y = "	3.80202985	"/>
+  	<node i = "	31	" x = "	2.6124928	" y = "	4.26320076	"/>
+  	<node i = "	32	" x = "	2.26995254	" y = "	4.45503283	"/>
+  	<node i = "	33	" x = "	1.91341722	" y = "	4.61939764	"/>
+  	<node i = "	34	" x = "	1.16722679	" y = "	4.86184978	"/>
+  	<node i = "	35	" x = "	0.782172322	" y = "	4.93844175	"/>
+  	<node i = "	36	" x = "	0.39229548	" y = "	4.98458672	"/>
+  	<node i = "	37	" x = "	22	" y = "	0	"/>
+  	<node i = "	38	" x = "	17.75	" y = "	0	"/>
+  	<node i = "	39	" x = "	13.5	" y = "	0	"/>
+  	<node i = "	40	" x = "	9.25	" y = "	0	"/>
+  	<node i = "	41	" x = "	6.59375	" y = "	0	"/>
+  	<node i = "	42	" x = "	5.59765625	" y = "	0	"/>
+  	<node i = "	43	" x = "	26.25	" y = "	24.6428566	"/>
+  	<node i = "	44	" x = "	26.25	" y = "	20.5357151	"/>
+  	<node i = "	45	" x = "	26.25	" y = "	16.4285717	"/>
+  	<node i = "	46	" x = "	26.25	" y = "	12.3214283	"/>
+  	<node i = "	47	" x = "	26.25	" y = "	8.21428585	"/>
+  	<node i = "	48	" x = "	26.25	" y = "	4.10714293	"/>
+  	<node i = "	49	" x = "	3.96266365	" y = "	3.62173796	"/>
+  	<node i = "	50	" x = "	3.6221087	" y = "	3.95180821	"/>
+  	<node i = "	51	" x = "	2.54318619	" y = "	4.62651825	"/>
+  	<node i = "	52	" x = "	5.38897133	" y = "	0.660800874	"/>
+  	<node i = "	53	" x = "	0.598385334	" y = "	5.5692296	"/>
+  	<node i = "	54	" x = "	1.79769385	" y = "	5.03113794	"/>
+  	<node i = "	55	" x = "	4.72931194	" y = "	2.6203177	"/>
+  	<node i = "	56	" x = "	4.87298584	" y = "	2.25018048	"/>
+  	<node i = "	57	" x = "	1.2210207	" y = "	5.35401297	"/>
+  	<node i = "	58	" x = "	4.2875042	" y = "	3.27024412	"/>
+  	<node i = "	59	" x = "	6.0332613	" y = "	0.845713556	"/>
+  	<node i = "	60	" x = "	5.3289485	" y = "	1.27117634	"/>
+  	<node i = "	61	" x = "	4.93736935	" y = "	3.174721	"/>
+  	<node i = "	62	" x = "	3.73969102	" y = "	4.45578718	"/>
+  	<node i = "	63	" x = "	4.50142145	" y = "	3.74805164	"/>
+  	<node i = "	64	" x = "	4.06304598	" y = "	4.04164171	"/>
+  	<node i = "	65	" x = "	5.17425919	" y = "	1.91612136	"/>
+  	<node i = "	66	" x = "	1.7772274	" y = "	5.6144743	"/>
+  	<node i = "	67	" x = "	3.16999173	" y = "	4.9373045	"/>
+  	<node i = "	68	" x = "	2.4489646	" y = "	5.36608076	"/>
+  	<node i = "	69	" x = "	4.48160028	" y = "	4.44986868	"/>
+  	<node i = "	70	" x = "	3.90680528	" y = "	5.10521507	"/>
+  	<node i = "	71	" x = "	5.2972455	" y = "	2.52110362	"/>
+  	<node i = "	72	" x = "	5.23184156	" y = "	3.96830487	"/>
+  	<node i = "	73	" x = "	2.21846747	" y = "	6.21432114	"/>
+  	<node i = "	74	" x = "	1.21282899	" y = "	6.0971818	"/>
+  	<node i = "	75	" x = "	7.11115885	" y = "	1.15894234	"/>
+  	<node i = "	76	" x = "	6.06580257	" y = "	1.9800638	"/>
+  	<node i = "	77	" x = "	4.63612366	" y = "	5.13573742	"/>
+  	<node i = "	78	" x = "	3.19705319	" y = "	5.76754808	"/>
+  	<node i = "	79	" x = "	5.19319391	" y = "	4.72306013	"/>
+  	<node i = "	80	" x = "	5.89558268	" y = "	3.19203424	"/>
+  	<node i = "	81	" x = "	5.28394222	" y = "	5.54761505	"/>
+  	<node i = "	82	" x = "	3.2418611	" y = "	7.13231945	"/>
+  	<node i = "	83	" x = "	4.20747995	" y = "	5.91252756	"/>
+  	<node i = "	84	" x = "	1.47770369	" y = "	7.36875296	"/>
+  	<node i = "	85	" x = "	6.21128511	" y = "	4.58429241	"/>
+  	<node i = "	86	" x = "	4.95024395	" y = "	6.87487364	"/>
+  	<node i = "	87	" x = "	7.52651262	" y = "	2.97698545	"/>
+  	<node i = "	88	" x = "	2.21714616	" y = "	9.39154434	"/>
+  	<node i = "	89	" x = "	6.33111763	" y = "	6.25887537	"/>
+  	<node i = "	90	" x = "	7.86418676	" y = "	5.49344873	"/>
+  	<node i = "	91	" x = "	4.42452097	" y = "	8.69316959	"/>
+  	<node i = "	92	" x = "	6.09232712	" y = "	7.89752913	"/>
+  	<node i = "	93	" x = "	7.43792152	" y = "	7.19750023	"/>
+  	<node i = "	94	" x = "	10.1962681	" y = "	4.40271568	"/>
+  	<node i = "	95	" x = "	7.4923768	" y = "	8.86980057	"/>
+  	<node i = "	96	" x = "	9.34834957	" y = "	7.49270916	"/>
+  	<node i = "	97	" x = "	9.20091629	" y = "	10.2186213	"/>
+  	<node i = "	98	" x = "	6.94375181	" y = "	11.0557709	"/>
+  	<node i = "	99	" x = "	11.4770966	" y = "	9.35366249	"/>
+  	<node i = "	100	" x = "	4.13280964	" y = "	11.4711027	"/>
+  	<node i = "	101	" x = "	8.71542168	" y = "	12.8138323	"/>
+  	<node i = "	102	" x = "	5.81715727	" y = "	9.59747505	"/>
+  	<node i = "	103	" x = "	11.6336603	" y = "	6.95769882	"/>
+  	<node i = "	104	" x = "	6.21305656	" y = "	13.7743521	"/>
+  	<node i = "	105	" x = "	11.0804071	" y = "	11.9816771	"/>
+  	<node i = "	106	" x = "	21.0674248	" y = "	25.2546406	"/>
+  	<node i = "	107	" x = "	5.41173744	" y = "	24.6316071	"/>
+  	<node i = "	108	" x = "	16.987709	" y = "	25.41008	"/>
+  	<node i = "	109	" x = "	13.1995859	" y = "	25.5013466	"/>
+  	<node i = "	110	" x = "	9.53304195	" y = "	25.3652935	"/>
+  	<node i = "	111	" x = "	2.85652661	" y = "	21.8920994	"/>
+  	<node i = "	112	" x = "	3.22765326	" y = "	15.1138659	"/>
+  	<node i = "	113	" x = "	2.99271774	" y = "	18.6980419	"/>
+  	<node i = "	114	" x = "	22.9342175	" y = "	22.1561775	"/>
+  	<node i = "	115	" x = "	22.0976353	" y = "	18.518959	"/>
+  	<node i = "	116	" x = "	22.7828159	" y = "	10.1211729	"/>
+  	<node i = "	117	" x = "	22.6059017	" y = "	5.73800755	"/>
+  	<node i = "	118	" x = "	22.6531944	" y = "	14.2108536	"/>
+  	<node i = "	119	" x = "	12.3209114	" y = "	2.5475626	"/>
+  	<node i = "	120	" x = "	18.8950634	" y = "	3.88430977	"/>
+  	<node i = "	121	" x = "	15.3292484	" y = "	3.02491283	"/>
+  	<node i = "	122	" x = "	13.5762415	" y = "	11.1513948	"/>
+  	<node i = "	123	" x = "	10.585825	" y = "	14.7246723	"/>
+  	<node i = "	124	" x = "	13.7692842	" y = "	8.19541073	"/>
+  	<node i = "	125	" x = "	8.22636127	" y = "	15.3484859	"/>
+  	<node i = "	126	" x = "	18.9986057	" y = "	21.7595615	"/>
+  	<node i = "	127	" x = "	19.3944283	" y = "	8.04092407	"/>
+  	<node i = "	128	" x = "	15.1042395	" y = "	22.3821735	"/>
+  	<node i = "	129	" x = "	11.5628853	" y = "	22.2377281	"/>
+  	<node i = "	130	" x = "	5.8750968	" y = "	20.4880581	"/>
+  	<node i = "	131	" x = "	19.3526783	" y = "	11.982935	"/>
+  	<node i = "	132	" x = "	19.0690842	" y = "	15.7348928	"/>
+  	<node i = "	133	" x = "	6.0236249	" y = "	16.9823856	"/>
+  	<node i = "	134	" x = "	13.2438002	" y = "	5.25919819	"/>
+  	<node i = "	135	" x = "	16.3473263	" y = "	9.92303085	"/>
+  	<node i = "	136	" x = "	9.65743923	" y = "	18.4612713	"/>
+  	<node i = "	137	" x = "	12.8145018	" y = "	13.5602341	"/>
+  	<node i = "	138	" x = "	16.1631927	" y = "	6.38796425	"/>
+  	<node i = "	139	" x = "	13.6393805	" y = "	19.4141617	"/>
+  	<node i = "	140	" x = "	18.5249805	" y = "	18.6428833	"/>
+  	<node i = "	141	" x = "	15.7511911	" y = "	13.6921444	"/>
+  	<node i = "	142	" x = "	8.40804005	" y = "	22.2367916	"/>
+  	<node i = "	143	" x = "	13.0824509	" y = "	16.1903687	"/>
+  	<node i = "	144	" x = "	16.0800495	" y = "	17.2642879	"/>
+  	<node i = "	145	" x = "	16.4694519	" y = "	19.8926125	"/>
+  </NodeList>
+
+  <ElementList count = "241" type = "Linear2D">
+    <element i = "	0	" indices = "	54	6	33	"/>
+  	<element i = "	1	" indices = "	68	51	67	"/>
+  	<element i = "	2	" indices = "	69	64	63	"/>
+  	<element i = "	3	" indices = "	71	61	55	"/>
+  	<element i = "	4	" indices = "	106	14	13	"/>
+  	<element i = "	5	" indices = "	50	30	29	"/>
+  	<element i = "	6	" indices = "	21	9	0	"/>
+  	<element i = "	7	" indices = "	107	9	21	"/>
+  	<element i = "	8	" indices = "	113	19	112	"/>
+  	<element i = "	9	" indices = "	64	50	49	"/>
+  	<element i = "	10	" indices = "	63	49	58	"/>
+  	<element i = "	11	" indices = "	144	143	141	"/>
+  	<element i = "	12	" indices = "	15	2	36	"/>
+  	<element i = "	13	" indices = "	53	15	36	"/>
+  	<element i = "	14	" indices = "	74	57	66	"/>
+  	<element i = "	15	" indices = "	102	100	91	"/>
+  	<element i = "	16	" indices = "	136	130	133	"/>
+  	<element i = "	17	" indices = "	111	21	20	"/>
+  	<element i = "	18	" indices = "	22	7	42	"/>
+  	<element i = "	19	" indices = "	52	22	42	"/>
+  	<element i = "	20	" indices = "	59	52	42	"/>
+  	<element i = "	21	" indices = "	65	3	60	"/>
+  	<element i = "	22	" indices = "	56	55	26	"/>
+  	<element i = "	23	" indices = "	56	26	25	"/>
+  	<element i = "	24	" indices = "	49	29	28	"/>
+  	<element i = "	25	" indices = "	50	29	49	"/>
+  	<element i = "	26	" indices = "	51	32	31	"/>
+  	<element i = "	27	" indices = "	51	33	32	"/>
+  	<element i = "	28	" indices = "	66	57	54	"/>
+  	<element i = "	29	" indices = "	57	35	34	"/>
+  	<element i = "	30	" indices = "	53	36	35	"/>
+  	<element i = "	31	" indices = "	48	37	8	"/>
+  	<element i = "	32	" indices = "	117	48	47	"/>
+  	<element i = "	33	" indices = "	138	134	121	"/>
+  	<element i = "	34	" indices = "	80	71	76	"/>
+  	<element i = "	35	" indices = "	75	41	40	"/>
+  	<element i = "	36	" indices = "	59	42	41	"/>
+  	<element i = "	37	" indices = "	43	1	14	"/>
+  	<element i = "	38	" indices = "	106	43	14	"/>
+  	<element i = "	39	" indices = "	108	106	13	"/>
+  	<element i = "	40	" indices = "	140	132	115	"/>
+  	<element i = "	41	" indices = "	124	122	99	"/>
+  	<element i = "	42	" indices = "	117	47	116	"/>
+  	<element i = "	43	" indices = "	58	28	4	"/>
+  	<element i = "	44	" indices = "	86	82	83	"/>
+  	<element i = "	45	" indices = "	83	77	81	"/>
+  	<element i = "	46	" indices = "	5	30	50	"/>
+  	<element i = "	47	" indices = "	68	54	51	"/>
+  	<element i = "	48	" indices = "	67	31	5	"/>
+  	<element i = "	49	" indices = "	60	23	52	"/>
+  	<element i = "	50	" indices = "	52	23	22	"/>
+  	<element i = "	51	" indices = "	54	57	6	"/>
+  	<element i = "	52	" indices = "	53	16	15	"/>
+  	<element i = "	53	" indices = "	74	53	57	"/>
+  	<element i = "	54	" indices = "	54	33	51	"/>
+  	<element i = "	55	" indices = "	55	27	26	"/>
+  	<element i = "	56	" indices = "	71	55	56	"/>
+  	<element i = "	57	" indices = "	65	25	3	"/>
+  	<element i = "	58	" indices = "	71	56	65	"/>
+  	<element i = "	59	" indices = "	61	58	55	"/>
+  	<element i = "	60	" indices = "	58	4	27	"/>
+  	<element i = "	61	" indices = "	57	53	35	"/>
+  	<element i = "	62	" indices = "	6	57	34	"/>
+  	<element i = "	63	" indices = "	62	5	50	"/>
+  	<element i = "	64	" indices = "	67	5	62	"/>
+  	<element i = "	65	" indices = "	55	58	27	"/>
+  	<element i = "	66	" indices = "	58	49	28	"/>
+  	<element i = "	67	" indices = "	76	60	59	"/>
+  	<element i = "	68	" indices = "	60	52	59	"/>
+  	<element i = "	69	" indices = "	60	3	24	"/>
+  	<element i = "	70	" indices = "	60	24	23	"/>
+  	<element i = "	71	" indices = "	79	77	69	"/>
+  	<element i = "	72	" indices = "	63	58	61	"/>
+  	<element i = "	73	" indices = "	77	70	69	"/>
+  	<element i = "	74	" indices = "	83	70	77	"/>
+  	<element i = "	75	" indices = "	80	61	71	"/>
+  	<element i = "	76	" indices = "	72	63	61	"/>
+  	<element i = "	77	" indices = "	64	62	50	"/>
+  	<element i = "	78	" indices = "	64	49	63	"/>
+  	<element i = "	79	" indices = "	65	56	25	"/>
+  	<element i = "	80	" indices = "	76	65	60	"/>
+  	<element i = "	81	" indices = "	31	67	51	"/>
+  	<element i = "	82	" indices = "	84	74	73	"/>
+  	<element i = "	83	" indices = "	70	62	69	"/>
+  	<element i = "	84	" indices = "	78	67	70	"/>
+  	<element i = "	85	" indices = "	73	66	68	"/>
+  	<element i = "	86	" indices = "	68	66	54	"/>
+  	<element i = "	87	" indices = "	101	98	97	"/>
+  	<element i = "	88	" indices = "	69	62	64	"/>
+  	<element i = "	89	" indices = "	88	84	82	"/>
+  	<element i = "	90	" indices = "	70	67	62	"/>
+  	<element i = "	91	" indices = "	75	59	41	"/>
+  	<element i = "	92	" indices = "	85	72	80	"/>
+  	<element i = "	93	" indices = "	85	79	72	"/>
+  	<element i = "	94	" indices = "	72	69	63	"/>
+  	<element i = "	95	" indices = "	84	16	74	"/>
+  	<element i = "	96	" indices = "	78	68	67	"/>
+  	<element i = "	97	" indices = "	74	16	53	"/>
+  	<element i = "	98	" indices = "	74	66	73	"/>
+  	<element i = "	99	" indices = "	87	76	75	"/>
+  	<element i = "	100	" indices = "	119	40	39	"/>
+  	<element i = "	101	" indices = "	76	71	65	"/>
+  	<element i = "	102	" indices = "	76	59	75	"/>
+  	<element i = "	103	" indices = "	79	69	72	"/>
+  	<element i = "	104	" indices = "	89	81	85	"/>
+  	<element i = "	105	" indices = "	82	73	78	"/>
+  	<element i = "	106	" indices = "	78	73	68	"/>
+  	<element i = "	107	" indices = "	80	72	61	"/>
+  	<element i = "	108	" indices = "	89	86	81	"/>
+  	<element i = "	109	" indices = "	87	85	80	"/>
+  	<element i = "	110	" indices = "	85	81	79	"/>
+  	<element i = "	111	" indices = "	92	91	86	"/>
+  	<element i = "	112	" indices = "	81	77	79	"/>
+  	<element i = "	113	" indices = "	88	17	84	"/>
+  	<element i = "	114	" indices = "	83	82	78	"/>
+  	<element i = "	115	" indices = "	83	78	70	"/>
+  	<element i = "	116	" indices = "	86	83	81	"/>
+  	<element i = "	117	" indices = "	84	17	16	"/>
+  	<element i = "	118	" indices = "	84	73	82	"/>
+  	<element i = "	119	" indices = "	87	80	76	"/>
+  	<element i = "	120	" indices = "	90	89	85	"/>
+  	<element i = "	121	" indices = "	92	86	89	"/>
+  	<element i = "	122	" indices = "	91	88	82	"/>
+  	<element i = "	123	" indices = "	87	75	40	"/>
+  	<element i = "	124	" indices = "	103	99	96	"/>
+  	<element i = "	125	" indices = "	88	18	17	"/>
+  	<element i = "	126	" indices = "	91	82	86	"/>
+  	<element i = "	127	" indices = "	90	85	87	"/>
+  	<element i = "	128	" indices = "	96	95	93	"/>
+  	<element i = "	129	" indices = "	94	87	40	"/>
+  	<element i = "	130	" indices = "	93	92	89	"/>
+  	<element i = "	131	" indices = "	104	100	98	"/>
+  	<element i = "	132	" indices = "	102	98	100	"/>
+  	<element i = "	133	" indices = "	93	89	90	"/>
+  	<element i = "	134	" indices = "	102	92	95	"/>
+  	<element i = "	135	" indices = "	96	90	94	"/>
+  	<element i = "	136	" indices = "	99	97	96	"/>
+  	<element i = "	137	" indices = "	94	90	87	"/>
+  	<element i = "	138	" indices = "	135	127	131	"/>
+  	<element i = "	139	" indices = "	125	101	123	"/>
+  	<element i = "	140	" indices = "	95	92	93	"/>
+  	<element i = "	141	" indices = "	105	101	97	"/>
+  	<element i = "	142	" indices = "	96	93	90	"/>
+  	<element i = "	143	" indices = "	109	108	12	"/>
+  	<element i = "	144	" indices = "	97	95	96	"/>
+  	<element i = "	145	" indices = "	112	100	104	"/>
+  	<element i = "	146	" indices = "	98	95	97	"/>
+  	<element i = "	147	" indices = "	103	96	94	"/>
+  	<element i = "	148	" indices = "	118	45	115	"/>
+  	<element i = "	149	" indices = "	100	18	88	"/>
+  	<element i = "	150	" indices = "	100	88	91	"/>
+  	<element i = "	151	" indices = "	105	97	99	"/>
+  	<element i = "	152	" indices = "	110	109	11	"/>
+  	<element i = "	153	" indices = "	102	91	92	"/>
+  	<element i = "	154	" indices = "	102	95	98	"/>
+  	<element i = "	155	" indices = "	134	94	119	"/>
+  	<element i = "	156	" indices = "	121	38	120	"/>
+  	<element i = "	157	" indices = "	133	104	125	"/>
+  	<element i = "	158	" indices = "	104	98	101	"/>
+  	<element i = "	159	" indices = "	141	135	131	"/>
+  	<element i = "	160	" indices = "	115	44	114	"/>
+  	<element i = "	161	" indices = "	114	43	106	"/>
+  	<element i = "	162	" indices = "	108	13	12	"/>
+  	<element i = "	163	" indices = "	107	10	9	"/>
+  	<element i = "	164	" indices = "	111	107	21	"/>
+  	<element i = "	165	" indices = "	109	12	11	"/>
+  	<element i = "	166	" indices = "	128	126	108	"/>
+  	<element i = "	167	" indices = "	110	11	10	"/>
+  	<element i = "	168	" indices = "	143	136	123	"/>
+  	<element i = "	169	" indices = "	110	10	107	"/>
+  	<element i = "	170	" indices = "	130	107	111	"/>
+  	<element i = "	171	" indices = "	113	20	19	"/>
+  	<element i = "	172	" indices = "	142	130	136	"/>
+  	<element i = "	173	" indices = "	112	19	18	"/>
+  	<element i = "	174	" indices = "	112	18	100	"/>
+  	<element i = "	175	" indices = "	139	129	136	"/>
+  	<element i = "	176	" indices = "	113	111	20	"/>
+  	<element i = "	177	" indices = "	126	115	114	"/>
+  	<element i = "	178	" indices = "	114	44	43	"/>
+  	<element i = "	179	" indices = "	132	131	118	"/>
+  	<element i = "	180	" indices = "	115	45	44	"/>
+  	<element i = "	181	" indices = "	116	47	46	"/>
+  	<element i = "	182	" indices = "	118	116	46	"/>
+  	<element i = "	183	" indices = "	120	37	117	"/>
+  	<element i = "	184	" indices = "	117	37	48	"/>
+  	<element i = "	185	" indices = "	118	46	45	"/>
+  	<element i = "	186	" indices = "	141	137	122	"/>
+  	<element i = "	187	" indices = "	119	94	40	"/>
+  	<element i = "	188	" indices = "	121	39	38	"/>
+  	<element i = "	189	" indices = "	127	120	117	"/>
+  	<element i = "	190	" indices = "	120	38	37	"/>
+  	<element i = "	191	" indices = "	138	121	120	"/>
+  	<element i = "	192	" indices = "	121	119	39	"/>
+  	<element i = "	193	" indices = "	122	105	99	"/>
+  	<element i = "	194	" indices = "	124	99	103	"/>
+  	<element i = "	195	" indices = "	123	101	105	"/>
+  	<element i = "	196	" indices = "	137	105	122	"/>
+  	<element i = "	197	" indices = "	134	124	103	"/>
+  	<element i = "	198	" indices = "	138	120	127	"/>
+  	<element i = "	199	" indices = "	136	133	125	"/>
+  	<element i = "	200	" indices = "	125	104	101	"/>
+  	<element i = "	201	" indices = "	126	114	106	"/>
+  	<element i = "	202	" indices = "	126	106	108	"/>
+  	<element i = "	203	" indices = "	127	117	116	"/>
+  	<element i = "	204	" indices = "	131	127	116	"/>
+  	<element i = "	205	" indices = "	128	108	109	"/>
+  	<element i = "	206	" indices = "	129	128	109	"/>
+  	<element i = "	207	" indices = "	129	109	110	"/>
+  	<element i = "	208	" indices = "	142	107	130	"/>
+  	<element i = "	209	" indices = "	130	111	113	"/>
+  	<element i = "	210	" indices = "	133	130	113	"/>
+  	<element i = "	211	" indices = "	131	116	118	"/>
+  	<element i = "	212	" indices = "	132	118	115	"/>
+  	<element i = "	213	" indices = "	140	115	126	"/>
+  	<element i = "	214	" indices = "	145	140	126	"/>
+  	<element i = "	215	" indices = "	133	113	112	"/>
+  	<element i = "	216	" indices = "	133	112	104	"/>
+  	<element i = "	217	" indices = "	134	103	94	"/>
+  	<element i = "	218	" indices = "	134	119	121	"/>
+  	<element i = "	219	" indices = "	135	122	124	"/>
+  	<element i = "	220	" indices = "	138	135	124	"/>
+  	<element i = "	221	" indices = "	136	125	123	"/>
+  	<element i = "	222	" indices = "	142	136	129	"/>
+  	<element i = "	223	" indices = "	137	123	105	"/>
+  	<element i = "	224	" indices = "	141	122	135	"/>
+  	<element i = "	225	" indices = "	138	127	135	"/>
+  	<element i = "	226	" indices = "	138	124	134	"/>
+  	<element i = "	227	" indices = "	143	139	136	"/>
+  	<element i = "	228	" indices = "	139	128	129	"/>
+  	<element i = "	229	" indices = "	145	126	128	"/>
+  	<element i = "	230	" indices = "	145	144	140	"/>
+  	<element i = "	231	" indices = "	141	131	132	"/>
+  	<element i = "	232	" indices = "	144	141	132	"/>
+  	<element i = "	233	" indices = "	142	129	110	"/>
+  	<element i = "	234	" indices = "	142	110	107	"/>
+  	<element i = "	235	" indices = "	143	123	137	"/>
+  	<element i = "	236	" indices = "	143	137	141	"/>
+  	<element i = "	237	" indices = "	144	132	140	"/>
+  	<element i = "	238	" indices = "	144	139	143	"/>
+  	<element i = "	239	" indices = "	145	128	139	"/>
+  	<element i = "	240	" indices = "	145	139	144	"/>
+  </ElementList>
+
+  <NodalForceList count = "8">
+  	<force node = "0" x = "0.0" y = "1.875"/>
+  	<force node = "1" x = "0.0" y = "1.875"/>
+  	<force node = "9" x = "0.0" y = "3.75"/>
+  	<force node = "10" x = "0.0" y = "3.75"/>
+  	<force node = "11" x = "0.0" y = "3.75"/>
+  	<force node = "12" x = "0.0" y = "3.75"/>
+  	<force node = "13" x = "0.0" y = "3.75"/>
+  	<force node = "14" x = "0.0" y = "3.75"/>
+  </NodalForceList>
+  
+  <NodalConstraintList>
+	<const node = "7" type = "UY"/>
+	<const node = "8" type = "UY"/>
+	<const node = "37" type = "UY"/>
+	<const node = "38" type = "UY"/>
+	<const node = "39" type = "UY"/>
+	<const node = "40" type = "UY"/>
+	<const node = "41" type = "UY"/>
+	<const node = "42" type = "UY"/>
+	<const node = "0" type = "UX"/>
+	<const node = "2" type = "UX"/>
+	<const node = "15" type = "UX"/>
+	<const node = "16" type = "UX"/>
+	<const node = "17" type = "UX"/>
+	<const node = "18" type = "UX"/>
+	<const node = "19" type = "UX"/>
+	<const node = "20" type = "UX"/>
+	<const node = "21" type = "UX"/>
+  </NodalConstraintList>
+    
+  <ElementProperties>
+    <elementType id = "plate" type = "Flat2DStructural" NodesCount = "3" gaussIntegration = "3x3"/>
+  </ElementProperties>
+  
+</FEM_INPUT>

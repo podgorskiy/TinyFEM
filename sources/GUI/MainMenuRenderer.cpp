@@ -36,7 +36,7 @@ void MainMenuRenderer::RenderMainMenu()
 
 void MainMenuRenderer::ShowMenuFile()
 {
-#ifndef __EMSCRIPTEN__
+#if 0//ndef __EMSCRIPTEN__
 	if (ImGui::MenuItem("New")) {
 		m_newFileSignal();
 	}
@@ -69,6 +69,9 @@ void MainMenuRenderer::ShowMenuFile()
 	if (ImGui::MenuItem("Open example 1")) {
 		m_openExampleSignal(1);
 	}
+	if (ImGui::MenuItem("Open example 2")) {
+		m_openExampleSignal(2);
+	}
 #endif
 }
 
@@ -76,6 +79,9 @@ void MainMenuRenderer::ShowMenuWindow()
 {
 	if (ImGui::MenuItem("Mesh view options", NULL)) {
 		m_showMeshViewOptions();
+	}
+	if (ImGui::MenuItem("Job options", NULL)) {
+		m_showJobView();
 	}
 }
 

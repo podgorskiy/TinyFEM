@@ -2,7 +2,7 @@
 #include "StrideDataFixedArray.h"
 #include "XMLDataUtils.h"
 
-ReadNodalForceFunctor::ReadNodalForceFunctor(NodalForceList& loads) :loads(loads){};
+ReadNodalForceFunctor::ReadNodalForceFunctor(IndexedStrideDataFixedArray& loads) :loads(loads), m_iterator(0){};
 
 void ReadNodalForceFunctor::operator()(TiXmlElement* loadElement)
 {
@@ -10,12 +10,10 @@ void ReadNodalForceFunctor::operator()(TiXmlElement* loadElement)
 	if (xmldata::ParseValue(loadElement, "node", node))
 	{
 		Eigen::Vector2d r = xmldata::ReadCoordinates<2>(loadElement);
-		NodalForce nf;
-		nf.node = node;
-		nf.x = r[0];
-		nf.y = r[1];
-		nf.z = 0;
-		loads.push_back(nf);
+		loads(m_iterator, 0) = r(0);
+		loads(m_iterator, 1) = r(1);
+		loads[m_iterator] = node;
+		m_iterator++;
 	}
 };
 

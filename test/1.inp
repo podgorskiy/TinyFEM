@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FEM_INPUT>
 
-  <asset>
-    <contributor>
-      <author>stanislav.podgorskiy</author>
-      <authoring_tool>fem</authoring_tool>
-    </contributor>
-    <created>2014-11-11T01:44:14</created>
-    <modified>2014-11-11T01:44:14</modified>
-  </asset>
-
   <problem_properties>
 	<field name="type" value="FlatPlate"/>
 	<field name="time" value="Constant"/>
@@ -38,14 +29,14 @@
   	<element i = "3" indices = "3 4 5"/>
   </ElementList>
 
-  <NodalForceList>
-  	<force node = "4" x = "0.0" y = "100.0"/>
-  	<force node = "5" x = "0.0" y = "100.0"/>
+  <NodalForceList count = "2">
+  	<force node = "4" x = "0.0" y = "10.0"/>
+  	<force node = "5" x = "0.0" y = "10.0"/>
   </NodalForceList>
   
   <NodalConstraintList>
   	<const node = "0" type = "UXY"/>
-  	<const node = "1" type = "UXY"/>
+  	<const node = "1" type = "UY"/>
   </NodalConstraintList>
     
   <ElementProperties>

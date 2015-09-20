@@ -14,6 +14,7 @@ public:
 	boost::signals2::signal<void()> m_saveAsFileSignal;
 	boost::signals2::signal<void()> m_closeSignal;
 	boost::signals2::signal<void()> m_showMeshViewOptions;
+	boost::signals2::signal<void()> m_showJobView;
 	boost::signals2::signal<void(int)> m_openExampleSignal;
 
 private:

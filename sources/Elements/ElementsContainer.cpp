@@ -9,7 +9,11 @@ ElementsContainer::ElementsContainer() :m_elementsCount(0), m_data(NULL)
 void ElementsContainer::Init(int elementsCount)
 {
 	m_elementsCount = elementsCount;
-	m_data = new IElement*[m_elementsCount];
+	SafeDelete(m_data);
+	if (elementsCount != 0)
+	{
+		m_data = new IElement*[m_elementsCount];
+	}
 }
 
 ElementsContainer::~ElementsContainer()

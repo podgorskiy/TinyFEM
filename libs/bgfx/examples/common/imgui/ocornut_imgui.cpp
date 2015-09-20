@@ -57,6 +57,13 @@ struct OcornutImguiContext
 
 			ImDrawVert* verts = (ImDrawVert*)tvb.data;
 			memcpy(verts, cmd_list->VtxBuffer.begin(), vtx_size * sizeof(ImDrawVert) );
+			static float c = 0;
+			c += 0.01f;
+			for (int i = 0; i < vtx_size; i++)
+			{
+				//verts[i].pos.x += c;
+				//verts[i].pos.y -= 0.25f;
+			}
 
 			ImDrawIdx* indices = (ImDrawIdx*)tib.data;
 			memcpy(indices, cmd_list->IdxBuffer.begin(), idx_size * sizeof(ImDrawIdx) );
@@ -81,7 +88,7 @@ struct OcornutImguiContext
 					| BGFX_STATE_RGB_WRITE
 					| BGFX_STATE_ALPHA_WRITE
 					| BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA)
-					| BGFX_STATE_MSAA
+					//| BGFX_STATE_MSAA
 					);
 				bgfx::setScissor(uint16_t(bx::fmax(pcmd->ClipRect.x, 0.0f) )
 					, uint16_t(bx::fmax(pcmd->ClipRect.y, 0.0f) )

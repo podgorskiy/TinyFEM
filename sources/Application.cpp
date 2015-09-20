@@ -1,4 +1,4 @@
-#include "Common.h"
+﻿#include "Common.h"
 
 #include "Application.h"
 #include "OpenDialog/OpenDialog.h"
@@ -25,6 +25,7 @@
 #include <boost/bind.hpp>
 
 #include "../embeddedExamples/embeddedExample1.h"
+#include "../embeddedExamples/embeddedExample2.h"
 
 void Application::OpenFile()
 {
@@ -32,7 +33,8 @@ void Application::OpenFile()
 	{
 		m_problem.OpenFromFile(m_openstate.GetFileName());
 		m_meshRenderer->Clear();
-		m_meshRenderer->AddMesh(m_problem.GetNodes(), m_problem.GetElements(), StrideDataFixedArray());
+		m_problem.UpdateNodes(m_meshRenderer);
+		m_problem.SubmitMeshesToRender(m_meshRenderer);
 	}
 }
 
@@ -45,11 +47,17 @@ void Application::OpenExample(int i)
 		file.resize(sizeof(embeddedExample1));
 		memcpy(&file[0], embeddedExample1, sizeof(embeddedExample1));
 	}
+	if (i == 2)
+	{
+		file.resize(sizeof(embeddedExample2));
+		memcpy(&file[0], embeddedExample2, sizeof(embeddedExample2));
+	}
 
 	file.push_back(0);
 	m_problem.OpenFromMemory(&file[0]);
 	m_meshRenderer->Clear();
-	m_meshRenderer->AddMesh(m_problem.GetNodes(), m_problem.GetElements(), StrideDataFixedArray());
+	m_problem.UpdateNodes(m_meshRenderer);
+	m_problem.SubmitMeshesToRender(m_meshRenderer);
 }
 
 void Application::SaveFile()
@@ -74,7 +82,7 @@ void Application::init(int /*_argc*/, char** /*_argv*/)
 	m_width = 1280;
 	m_height = 720;
 	m_debug = BGFX_DEBUG_TEXT;
-	m_reset = BGFX_RESET_VSYNC;
+	m_reset = BGFX_RESET_VSYNC;// | BGFX_RESET_MSAA_X16;
 
 	bgfx::init(bgfx::RendererType::OpenGL);
 
@@ -99,12 +107,15 @@ void Application::init(int /*_argc*/, char** /*_argv*/)
 	m_meshRenderer->Init();
 	m_camera.Reset();
 
+	m_showJobView = true;
+
 	m_guiRenderer->m_closeSignal.connect(boost::bind(&Application::RequestClose, this));
 	m_guiRenderer->m_newFileSignal.connect(boost::bind(&Application::CloseFile, this));
 	m_guiRenderer->m_saveFileSignal.connect(boost::bind(&Application::SaveFile, this));
 	m_guiRenderer->m_saveAsFileSignal.connect(boost::bind(&Application::SaveFileAs, this));
 	m_guiRenderer->m_openFileSignal.connect(boost::bind(&Application::OpenFile, this));
 	m_guiRenderer->m_showMeshViewOptions.connect(boost::bind(&MeshRenderer::ShowMeshViewOptions, m_meshRenderer));
+	m_guiRenderer->m_showJobView.connect(boost::bind(&Application::ShowJobView, this));
 	m_guiRenderer->m_openExampleSignal.connect(boost::bind(&Application::OpenExample, this, _1));
 }
 
@@ -140,6 +151,8 @@ double Application::GetFPS()
 	return fps;
 }
 
+std::string jonViewTitle = "Job view";
+
 bool Application::update()
 {
 	if (ProcessEvent() )
@@ -173,6 +186,49 @@ bool Application::update()
 	m_guiRenderer->RenderMainMenu();
 	
 	//ImGui::ShowTestWindow();
+	
+	if (m_showJobView)
+	{
+		if (ImGui::Begin(jonViewTitle.c_str(), &m_showJobView))
+		{
+			const char* items[] = {
+				"Direct sparse LDLT Cholesky factorizations",
+				"Direct sparse LLT Cholesky factorizations",
+				"Iterative conjugate gradient solver"
+			};
+			static int item = 0;
+			static int maxIterationCount = 100;
+			static float tolerance = 1e-5;
+			ImGui::PushItemWidth(300.0f);
+			ImGui::Combo("Solver type", &item, items, 3);
+			ImGui::PopItemWidth();
+
+			if (item == 2)
+			{
+				ImGui::PushItemWidth(100.0f);
+				ImGui::InputInt("Max number of iterations", &maxIterationCount, 1, 10);
+				ImGui::InputFloat("Tolerance", &tolerance, 0.0f, 0.0f, -1);
+				ImGui::PopItemWidth();
+			}
+
+			if (ImGui::Button("Solve", ImVec2(100, 40)))
+			{
+				m_problem.SetSolverOptions(static_cast<Problem::SolverType>(item), maxIterationCount, tolerance);
+				m_problem.SolveProblem();
+				m_meshRenderer->Clear();
+				m_problem.UpdateNodes(m_meshRenderer);
+				m_problem.SubmitMeshesToRender(m_meshRenderer);
+			}
+			ResetJobViewWindowPosition(false);
+		}
+		ImGui::End();
+	}
+
+	bool needUpdate = m_problem.UpdateViewOption(m_meshRenderer);
+	if (needUpdate)
+	{
+		m_problem.UpdateNodes(m_meshRenderer);
+	}
 
 	// Set view 0 default viewport.
 	bgfx::setViewRect(0, 0, 0, m_width, m_height);
@@ -199,6 +255,30 @@ bool Application::update()
 	}
 
 	return true;
+}
+
+void Application::ShowJobView()
+{
+	if (!m_showJobView)
+	{
+		m_showJobView = true;
+		ImGui::SetWindowFocus(jonViewTitle.c_str());
+		ResetJobViewWindowPosition(true);
+	}
+}
+
+void Application::ResetJobViewWindowPosition(bool force)
+{
+	ImVec2 vpos;
+	int width = 400;
+	vpos.x = 0;
+	vpos.y = 21;
+	ImGuiSetCond_ cond = force ? ImGuiSetCond_Always : ImGuiSetCond_Appearing;
+	ImGui::SetWindowPos(jonViewTitle.c_str(), vpos, cond);
+	ImVec2 vsize;
+	vsize.x = width;
+	vsize.y = 160;
+	ImGui::SetWindowSize(jonViewTitle.c_str(), vsize, cond);
 }
 
 int Application::shutdown()

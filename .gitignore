@@ -7,6 +7,13 @@
 *.idb
 *.pdb
 *.d
+*.opensdf
+*.tlog
+*.bc
+*.html
+*.js
+*.sdf
+projects/*
 
 # Precompiled Headers
 *.gch
@@ -30,3 +37,5 @@
 *.exe
 *.out
 *.app
+
+*.7z

@@ -53,7 +53,7 @@ void Camera::Update(const entry::MouseState& _mouseState)
 
 	m_mouseNow.m_mz = _mouseState.m_mz;
 	int32_t deltaZ = m_mouseNow.m_mz - m_mouseLast.m_mz;
-	m_fov *= (1.0f + deltaZ / 20.0f);
+	m_fov *= (1.0f - deltaZ / 20.0f);
 	m_mouseLast.m_mz = m_mouseNow.m_mz;
 
 	if (m_mouseDown)
@@ -99,6 +99,11 @@ void Camera::GetViewProj(float* dest) const
 void Camera::SetPosition(const float* _pos)
 {
 	memcpy(m_position, _pos, sizeof(float) * 2);
+};
+
+void Camera::SetFOV(float fov)
+{
+	m_fov = fov;
 };
 
 void Camera::SetWidthHeight(int width, int height)

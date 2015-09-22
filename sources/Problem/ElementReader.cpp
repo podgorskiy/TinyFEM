@@ -16,6 +16,10 @@ void ReadElementFunctor::operator()(TiXmlElement* nodeElement)
 	std::string indicesString;
 	bool hasIndices = xmldata::ParseValue(nodeElement, "indices", indicesString);
 
+	std::string type;
+	xmldata::ParseValue(nodeElement, "type", type);
+	fabric.SetType(type);
+
 	if (hasI && hasIndices)
 	{
 		boost::trim(indicesString);

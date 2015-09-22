@@ -36,7 +36,7 @@ void MainMenuRenderer::RenderMainMenu()
 
 void MainMenuRenderer::ShowMenuFile()
 {
-#if 0//ndef __EMSCRIPTEN__
+#ifndef __EMSCRIPTEN__
 	if (ImGui::MenuItem("New")) {
 		m_newFileSignal();
 	}

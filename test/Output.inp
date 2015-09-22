@@ -1,0 +1,267 @@
+<?xml version="1.0" ?>
+<FEM_INPUT>
+  <materials>
+    <material id="steel">
+      <field name="PoissonsRatio" value="0.3"/>
+      <field name="YoungsModulus" value="2000"/>
+    </material>
+  </materials>
+  <NodeList count="123">
+    <node i="0" x="0.0" y="28.75"/>
+    <node i="1" x="26.25" y="28.75"/>
+    <node i="2" x="0.0" y="5.0"/>
+    <node i="3" x="4.7552824" y="1.54508495"/>
+    <node i="4" x="4.04508495" y="2.93892622"/>
+    <node i="5" x="2.93892622" y="4.04508495"/>
+    <node i="6" x="1.54508495" y="4.7552824"/>
+    <node i="7" x="5.0" y="0.0"/>
+    <node i="8" x="26.25" y="0.0"/>
+    <node i="9" x="3.75" y="28.75"/>
+    <node i="10" x="7.5" y="28.75"/>
+    <node i="11" x="11.25" y="28.75"/>
+    <node i="12" x="15.0" y="28.75"/>
+    <node i="13" x="18.75" y="28.75"/>
+    <node i="14" x="22.5" y="28.75"/>
+    <node i="15" x="0.0" y="5.55664063"/>
+    <node i="16" x="0.0" y="6.484375"/>
+    <node i="17" x="0.0" y="8.95833302"/>
+    <node i="18" x="0.0" y="12.916667"/>
+    <node i="19" x="0.0" y="16.875"/>
+    <node i="20" x="0.0" y="20.833334"/>
+    <node i="21" x="0.0" y="24.791666"/>
+    <node i="22" x="4.98458672" y="0.39229548"/>
+    <node i="23" x="4.93844175" y="0.782172322"/>
+    <node i="24" x="4.86184978" y="1.16722679"/>
+    <node i="25" x="4.61939764" y="1.91341722"/>
+    <node i="26" x="4.45503283" y="2.26995254"/>
+    <node i="27" x="4.26320076" y="2.6124928"/>
+    <node i="28" x="3.80202985" y="3.2472403"/>
+    <node i="29" x="3.53553391" y="3.53553391"/>
+    <node i="30" x="3.2472403" y="3.80202985"/>
+    <node i="31" x="2.6124928" y="4.26320076"/>
+    <node i="32" x="2.26995254" y="4.45503283"/>
+    <node i="33" x="1.91341722" y="4.61939764"/>
+    <node i="34" x="1.16722679" y="4.86184978"/>
+    <node i="35" x="0.782172322" y="4.93844175"/>
+    <node i="36" x="0.39229548" y="4.98458672"/>
+    <node i="37" x="22.0" y="0.0"/>
+    <node i="38" x="17.75" y="0.0"/>
+    <node i="39" x="13.5" y="0.0"/>
+    <node i="40" x="9.25" y="0.0"/>
+    <node i="41" x="6.59375" y="0.0"/>
+    <node i="42" x="5.59765625" y="0.0"/>
+    <node i="43" x="26.25" y="24.6428566"/>
+    <node i="44" x="26.25" y="20.5357151"/>
+    <node i="45" x="26.25" y="16.4285717"/>
+    <node i="46" x="26.25" y="12.3214283"/>
+    <node i="47" x="26.25" y="8.21428585"/>
+    <node i="48" x="26.25" y="4.10714293"/>
+    <node i="49" x="5.46846581" y="1.07126153"/>
+    <node i="50" x="0.658209026" y="5.69677496"/>
+    <node i="51" x="1.34851491" y="5.30242443"/>
+    <node i="52" x="3.73764491" y="4.37849855"/>
+    <node i="53" x="5.00701189" y="1.64566672"/>
+    <node i="54" x="1.75151348" y="5.36236334"/>
+    <node i="55" x="4.60518837" y="4.75026703"/>
+    <node i="56" x="2.65678859" y="5.50443411"/>
+    <node i="57" x="1.91079843" y="6.2370553"/>
+    <node i="58" x="4.57457399" y="3.71977472"/>
+    <node i="59" x="3.62720299" y="6.14724159"/>
+    <node i="60" x="5.00302792" y="2.35513163"/>
+    <node i="61" x="6.0172925" y="1.49076045"/>
+    <node i="62" x="6.09671164" y="4.31314135"/>
+    <node i="63" x="3.3281095" y="7.89519548"/>
+    <node i="64" x="6.98157406" y="2.06916547"/>
+    <node i="65" x="4.95236158" y="5.66658497"/>
+    <node i="66" x="3.24222636" y="10.3681889"/>
+    <node i="67" x="6.18788815" y="7.73761272"/>
+    <node i="68" x="8.81407356" y="7.94199944"/>
+    <node i="69" x="6.22586489" y="10.7074251"/>
+    <node i="70" x="10.0687351" y="3.60291052"/>
+    <node i="71" x="22.3744965" y="24.5754738"/>
+    <node i="72" x="7.33813143" y="24.8347092"/>
+    <node i="73" x="11.084259" y="24.734169"/>
+    <node i="74" x="18.5650463" y="24.563139"/>
+    <node i="75" x="14.8181629" y="24.6087914"/>
+    <node i="76" x="3.14456153" y="13.5576649"/>
+    <node i="77" x="3.28009963" y="17.1751671"/>
+    <node i="78" x="22.2125683" y="16.1978836"/>
+    <node i="79" x="22.2490311" y="7.90135098"/>
+    <node i="80" x="22.1757717" y="3.88840795"/>
+    <node i="81" x="22.2508183" y="12.0224752"/>
+    <node i="82" x="14.0615749" y="3.56314063"/>
+    <node i="83" x="7.86441565" y="5.72950935"/>
+    <node i="84" x="14.537055" y="20.3277893"/>
+    <node i="85" x="10.7757778" y="20.7103138"/>
+    <node i="86" x="3.47049904" y="20.9730606"/>
+    <node i="87" x="6.68157101" y="17.2639179"/>
+    <node i="88" x="22.2693501" y="20.382431"/>
+    <node i="89" x="18.3861485" y="11.6889162"/>
+    <node i="90" x="18.2223473" y="15.9561596"/>
+    <node i="91" x="18.0925446" y="3.69629526"/>
+    <node i="92" x="9.02503204" y="10.7788572"/>
+    <node i="93" x="18.3550892" y="20.2827549"/>
+    <node i="94" x="7.06027508" y="20.9511681"/>
+    <node i="95" x="6.33752298" y="13.8868656"/>
+    <node i="96" x="18.345438" y="7.58003712"/>
+    <node i="97" x="11.4531221" y="7.39984608"/>
+    <node i="98" x="14.6626997" y="7.32760477"/>
+    <node i="99" x="10.1533136" y="16.9613304"/>
+    <node i="100" x="11.6440821" y="13.3696184"/>
+    <node i="101" x="14.8759317" y="11.2401352"/>
+    <node i="102" x="14.0356197" y="15.6109619"/>
+    <node i="103" x="2.09538841" y="5.20353603"/>
+    <node i="104" x="3.28770924" y="5.13132954"/>
+    <node i="105" x="3.36801147" y="4.54579163"/>
+    <node i="106" x="4.12945604" y="4.10371637"/>
+    <node i="107" x="5.0977211" y="3.23792171"/>
+    <node i="108" x="4.82874298" y="2.74047875"/>
+    <node i="109" x="0.958272398" y="6.60275888"/>
+    <node i="110" x="5.04597664" y="1.96397853"/>
+    <node i="111" x="5.24130058" y="1.42195106"/>
+    <node i="112" x="5.613585" y="0.624917686"/>
+    <node i="113" x="1.36000109" y="7.87604094"/>
+    <node i="114" x="6.27606058" y="0.984583199"/>
+    <node i="115" x="3.62603712" y="24.8566437"/>
+    <node i="116" x="4.11306953" y="5.02645206"/>
+    <node i="117" x="5.08073473" y="4.28864384"/>
+    <node i="118" x="5.67823267" y="2.4276309"/>
+    <node i="119" x="1.12491536" y="5.55398989"/>
+    <node i="120" x="11.8720913" y="10.7377911"/>
+    <node i="121" x="5.54349566" y="1.84672749"/>
+    <node i="122" x="9.30671501" y="13.8474007"/>
+  </NodeList>
+  <ElementList count="100">
+    <element i="0" indices="61 114 64" type="CPS3"/>
+    <element i="1" indices="64 114 41" type="CPS3"/>
+    <element i="2" indices="104 59 56" type="CPS3"/>
+    <element i="3" indices="83 68 67" type="CPS3"/>
+    <element i="4" indices="116 55 65" type="CPS3"/>
+    <element i="5" indices="35 34 51 119" type="CPS4R"/>
+    <element i="6" indices="31 5 105 104" type="CPS4R"/>
+    <element i="7" indices="117 58 107 62" type="CPS4R"/>
+    <element i="8" indices="71 14 13 74" type="CPS4R"/>
+    <element i="9" indices="55 106 58 117" type="CPS4R"/>
+    <element i="10" indices="0 21 115 9" type="CPS4R"/>
+    <element i="11" indices="76 77 19 18" type="CPS4R"/>
+    <element i="12" indices="67 69 66 63" type="CPS4R"/>
+    <element i="13" indices="43 71 88 44" type="CPS4R"/>
+    <element i="14" indices="15 2 36 50" type="CPS4R"/>
+    <element i="15" indices="54 6 33 103" type="CPS4R"/>
+    <element i="16" indices="52 30 29 106" type="CPS4R"/>
+    <element i="17" indices="66 17 113 63" type="CPS4R"/>
+    <element i="18" indices="122 99 87 95" type="CPS4R"/>
+    <element i="19" indices="21 20 86 115" type="CPS4R"/>
+    <element i="20" indices="7 42 112 22" type="CPS4R"/>
+    <element i="21" indices="22 112 49 23" type="CPS4R"/>
+    <element i="22" indices="23 49 111 24" type="CPS4R"/>
+    <element i="23" indices="53 110 25 3" type="CPS4R"/>
+    <element i="24" indices="4 27 108 107" type="CPS4R"/>
+    <element i="25" indices="4 107 58 28" type="CPS4R"/>
+    <element i="26" indices="5 30 52 105" type="CPS4R"/>
+    <element i="27" indices="31 104 56 32" type="CPS4R"/>
+    <element i="28" indices="103 33 32 56" type="CPS4R"/>
+    <element i="29" indices="36 35 119 50" type="CPS4R"/>
+    <element i="30" indices="37 8 48 80" type="CPS4R"/>
+    <element i="31" indices="80 48 47 79" type="CPS4R"/>
+    <element i="32" indices="83 67 65 62" type="CPS4R"/>
+    <element i="33" indices="43 1 14 71" type="CPS4R"/>
+    <element i="34" indices="44 88 78 45" type="CPS4R"/>
+    <element i="35" indices="116 65 59 104" type="CPS4R"/>
+    <element i="36" indices="89 96 79 81" type="CPS4R"/>
+    <element i="37" indices="54 57 119 51" type="CPS4R"/>
+    <element i="38" indices="51 34 6 54" type="CPS4R"/>
+    <element i="39" indices="15 50 109 16" type="CPS4R"/>
+    <element i="40" indices="27 26 60 108" type="CPS4R"/>
+    <element i="41" indices="53 3 24 111" type="CPS4R"/>
+    <element i="42" indices="28 58 106 29" type="CPS4R"/>
+    <element i="43" indices="106 55 116 52" type="CPS4R"/>
+    <element i="44" indices="112 114 61 49" type="CPS4R"/>
+    <element i="45" indices="63 113 109 57" type="CPS4R"/>
+    <element i="46" indices="54 103 56 57" type="CPS4R"/>
+    <element i="47" indices="57 56 59 63" type="CPS4R"/>
+    <element i="48" indices="60 26 25 110" type="CPS4R"/>
+    <element i="49" indices="55 117 62 65" type="CPS4R"/>
+    <element i="50" indices="84 93 74 75" type="CPS4R"/>
+    <element i="51" indices="110 53 111 121" type="CPS4R"/>
+    <element i="52" indices="83 62 64 70" type="CPS4R"/>
+    <element i="53" indices="64 41 40 70" type="CPS4R"/>
+    <element i="54" indices="68 92 69 67" type="CPS4R"/>
+    <element i="55" indices="38 91 82 39" type="CPS4R"/>
+    <element i="56" indices="64 62 107 118" type="CPS4R"/>
+    <element i="57" indices="18 17 66 76" type="CPS4R"/>
+    <element i="58" indices="59 65 67 63" type="CPS4R"/>
+    <element i="59" indices="86 94 72 115" type="CPS4R"/>
+    <element i="60" indices="96 91 80 79" type="CPS4R"/>
+    <element i="61" indices="45 78 81 46" type="CPS4R"/>
+    <element i="62" indices="90 89 81 78" type="CPS4R"/>
+    <element i="63" indices="70 40 39 82" type="CPS4R"/>
+    <element i="64" indices="97 70 82 98" type="CPS4R"/>
+    <element i="65" indices="74 13 12 75" type="CPS4R"/>
+    <element i="66" indices="11 73 75 12" type="CPS4R"/>
+    <element i="67" indices="10 72 73 11" type="CPS4R"/>
+    <element i="68" indices="72 10 9 115" type="CPS4R"/>
+    <element i="69" indices="85 84 75 73" type="CPS4R"/>
+    <element i="70" indices="122 92 120 100" type="CPS4R"/>
+    <element i="71" indices="76 66 69 95" type="CPS4R"/>
+    <element i="72" indices="87 94 86 77" type="CPS4R"/>
+    <element i="73" indices="20 19 77 86" type="CPS4R"/>
+    <element i="74" indices="46 81 79 47" type="CPS4R"/>
+    <element i="75" indices="37 80 91 38" type="CPS4R"/>
+    <element i="76" indices="93 90 78 88" type="CPS4R"/>
+    <element i="77" indices="83 70 97 68" type="CPS4R"/>
+    <element i="78" indices="73 72 94 85" type="CPS4R"/>
+    <element i="79" indices="77 76 95 87" type="CPS4R"/>
+    <element i="80" indices="74 93 88 71" type="CPS4R"/>
+    <element i="81" indices="84 85 99 102" type="CPS4R"/>
+    <element i="82" indices="100 120 101 102" type="CPS4R"/>
+    <element i="83" indices="84 102 90 93" type="CPS4R"/>
+    <element i="84" indices="95 69 92 122" type="CPS4R"/>
+    <element i="85" indices="97 98 101 120" type="CPS4R"/>
+    <element i="86" indices="91 96 98 82" type="CPS4R"/>
+    <element i="87" indices="92 68 97 120" type="CPS4R"/>
+    <element i="88" indices="87 99 85 94" type="CPS4R"/>
+    <element i="89" indices="98 96 89 101" type="CPS4R"/>
+    <element i="90" indices="102 101 89 90" type="CPS4R"/>
+    <element i="91" indices="99 122 100 102" type="CPS4R"/>
+    <element i="92" indices="52 116 104 105" type="CPS4R"/>
+    <element i="93" indices="60 118 107 108" type="CPS4R"/>
+    <element i="94" indices="109 50 119 57" type="CPS4R"/>
+    <element i="95" indices="112 42 41 114" type="CPS4R"/>
+    <element i="96" indices="17 16 109 113" type="CPS4R"/>
+    <element i="97" indices="121 111 49 61" type="CPS4R"/>
+    <element i="98" indices="61 64 118 121" type="CPS4R"/>
+    <element i="99" indices="118 60 110 121" type="CPS4R"/>
+  </ElementList>
+  
+  <NodalForceList count = "8">
+  	<force node = "0" x = "0.0" y = "1.875"/>
+  	<force node = "1" x = "0.0" y = "1.875"/>
+  	<force node = "9" x = "0.0" y = "3.75"/>
+  	<force node = "10" x = "0.0" y = "3.75"/>
+  	<force node = "11" x = "0.0" y = "3.75"/>
+  	<force node = "12" x = "0.0" y = "3.75"/>
+  	<force node = "13" x = "0.0" y = "3.75"/>
+  	<force node = "14" x = "0.0" y = "3.75"/>
+  </NodalForceList>
+  
+  <NodalConstraintList>
+  	<const node = "7" type = "UY"/>
+  	<const node = "8" type = "UY"/>
+  	<const node = "37" type = "UY"/>
+  	<const node = "38" type = "UY"/>
+  	<const node = "39" type = "UY"/>
+  	<const node = "40" type = "UY"/>
+  	<const node = "41" type = "UY"/>
+  	<const node = "42" type = "UY"/>
+  	<const node = "0" type = "UX"/>
+  	<const node = "2" type = "UX"/>
+  	<const node = "15" type = "UX"/>
+  	<const node = "16" type = "UX"/>
+  	<const node = "17" type = "UX"/>
+  	<const node = "18" type = "UX"/>
+  	<const node = "19" type = "UX"/>
+  	<const node = "20" type = "UX"/>
+  	<const node = "21" type = "UX"/>
+  </NodalConstraintList>
+</FEM_INPUT>

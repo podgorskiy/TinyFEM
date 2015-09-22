@@ -217,6 +217,7 @@ bool Application::update()
 				m_problem.SolveProblem();
 				m_meshRenderer->Clear();
 				m_problem.UpdateNodes(m_meshRenderer);
+				m_meshRenderer->ResetNeedForResize();
 				m_problem.SubmitMeshesToRender(m_meshRenderer);
 			}
 			ResetJobViewWindowPosition(false);
@@ -228,6 +229,7 @@ bool Application::update()
 	if (needUpdate)
 	{
 		m_problem.UpdateNodes(m_meshRenderer);
+		m_meshRenderer->ResetNeedForResize();
 	}
 
 	// Set view 0 default viewport.

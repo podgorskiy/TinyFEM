@@ -2,7 +2,8 @@
 #include "IElement.h"
 #include "ElementFabric.h"
 #include <cassert>
-#include "Linear2DElement.h"
+#include "CPS3.h"
+#include "CPS4R.h"
 
 
 IElement* ElementFabric::CreateElement()
@@ -21,7 +22,9 @@ void ElementFabric::SetType(const std::string& type)
 
 ElementFabric::ElementFabric() : m_activeGenerator(NULL)
 {
-	RegisterElementType<Linear2DElement>();
+	CPS4R::Init();
+	RegisterElementType<CPS3>();
+	RegisterElementType<CPS4R>();
 }
 
 ElementFabric::Generator ElementFabric::GetGenerator(const std::string& type)

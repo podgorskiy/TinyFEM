@@ -177,7 +177,8 @@ void MeshRenderer::Init()
 void MeshRenderer::SetNodes(
 	const StrideDataFixedArray& nodes,
 	const Eigen::VectorXf& deforms,
-	const std::vector<float> values)
+	const std::vector<float> values, 
+	bool update)
 {
 	m_max_bound = Eigen::Vector3f(FLT_MIN, FLT_MIN, FLT_MIN);
 	m_min_bound = Eigen::Vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
@@ -226,7 +227,7 @@ void MeshRenderer::SetNodes(
 
 	m_meshesList.m_vbh = bgfx::createVertexBuffer(bgfx::makeRef(vertices, sizeof(NodeVertex) * nodesCount), NodeVertex::ms_decl);
 	//delete vertices;
-	m_needResize = true;
+	m_needResize = !update;
 }
 
 void MeshRenderer::PushMesh(	const ElementsContainer& elements, int elementStart, int elementEnd,
@@ -251,32 +252,58 @@ void MeshRenderer::PushMesh(	const ElementsContainer& elements, int elementStart
 
 	m.m_elementsCenters->Init(dof, elementEnd - elementStart);
 	{
-		uint32_t* indices = new uint32_t[elementsCount * 3];
+		std::vector<uint32_t>* indices = new std::vector<uint32_t>;
 		for (int i = 0; i < elementsCount; ++i)
 		{
 			std::vector<int> ind = elements(i + elementStart)->GetIndices();
-			indices[3 * i + 0] = ind[0];
-			indices[3 * i + 1] = ind[1];
-			indices[3 * i + 2] = ind[2];
-			(*m.m_elementsCenters)(i, 0) = (m_meshesList.m_nodesCopy(ind[0], 0) + (m_meshesList.m_nodesCopy)(ind[1], 0) + (m_meshesList.m_nodesCopy)(ind[2], 0)) / 3.0f;
-			(*m.m_elementsCenters)(i, 1) = (m_meshesList.m_nodesCopy(ind[0], 1) + (m_meshesList.m_nodesCopy)(ind[1], 1) + (m_meshesList.m_nodesCopy)(ind[2], 1)) / 3.0f;
+			if (ind.size() == 3)
+			{
+				indices->push_back(ind[0]);
+				indices->push_back(ind[1]);
+				indices->push_back(ind[2]);
+			}			
+			if (ind.size() == 4)
+			{
+				indices->push_back(ind[0]);
+				indices->push_back(ind[1]);
+				indices->push_back(ind[3]);
+				indices->push_back(ind[1]);
+				indices->push_back(ind[2]);
+				indices->push_back(ind[3]);
+			}
+			//(*m.m_elementsCenters)(i, 0) = (m_meshesList.m_nodesCopy(ind[0], 0) + (m_meshesList.m_nodesCopy)(ind[1], 0) + (m_meshesList.m_nodesCopy)(ind[2], 0)) / 3.0f;
+			//(*m.m_elementsCenters)(i, 1) = (m_meshesList.m_nodesCopy(ind[0], 1) + (m_meshesList.m_nodesCopy)(ind[1], 1) + (m_meshesList.m_nodesCopy)(ind[2], 1)) / 3.0f;
 		}
-		m.m_ibhTriang = bgfx::createIndexBuffer(bgfx::makeRef(indices, sizeof(uint32_t) * elementsCount * 3), BGFX_BUFFER_INDEX32);
+		m.m_ibhTriang = bgfx::createIndexBuffer(bgfx::makeRef(&(*indices)[0], sizeof(uint32_t) * indices->size()), BGFX_BUFFER_INDEX32);
 		//delete indices;
 	}
 	{
-		uint32_t* indices = new uint32_t[elementsCount * 6];
+		std::vector<uint32_t>* indices = new std::vector<uint32_t>;
 		for (int i = 0; i < elementsCount; ++i)
 		{
-			std::vector<int> ind = elements(i + elementStart)->GetIndices();
-			indices[6 * i + 0] = ind[0];
-			indices[6 * i + 1] = ind[1];
-			indices[6 * i + 2] = ind[1];
-			indices[6 * i + 3] = ind[2];
-			indices[6 * i + 4] = ind[2];
-			indices[6 * i + 5] = ind[0];
+			std::vector<int> ind = elements(i + elementStart)->GetIndices();			
+			if (ind.size() == 3)
+			{
+				indices->push_back(ind[0]);
+				indices->push_back(ind[1]);
+				indices->push_back(ind[1]);
+				indices->push_back(ind[2]);
+				indices->push_back(ind[2]);
+				indices->push_back(ind[0]);
+			}
+			if (ind.size() == 4)
+			{
+				indices->push_back(ind[0]);
+				indices->push_back(ind[1]);
+				indices->push_back(ind[1]);
+				indices->push_back(ind[2]);
+				indices->push_back(ind[2]);
+				indices->push_back(ind[3]);
+				indices->push_back(ind[3]);
+				indices->push_back(ind[0]);
+			}
 		}
-		m.m_ibhLines = bgfx::createIndexBuffer(bgfx::makeRef(indices, sizeof(uint32_t) * elementsCount * 6), BGFX_BUFFER_INDEX32);
+		m.m_ibhLines = bgfx::createIndexBuffer(bgfx::makeRef(&(*indices)[0], sizeof(uint32_t) * indices->size()), BGFX_BUFFER_INDEX32);
 		//delete indices;
 	}
 	m_meshesList.m_meshes.push_back(m);
@@ -589,8 +616,8 @@ void MeshRenderer::RenderSign(const FemMesh& mesh, int node, bgfx::VertexBufferH
 
 	bgfx::setVertexBuffer(vbh);
 	bgfx::setIndexBuffer(ibh);
-
-	bgfx::setTransform(&(translation* rotation));
+	glm::mat4 transform = translation* rotation;
+	bgfx::setTransform(&transform);
 
 	bgfx::setState(BGFX_STATE_RGB_WRITE | BGFX_STATE_MSAA | BGFX_STATE_PT_LINES);
 	bgfx::submit(0, m_programs[1]);

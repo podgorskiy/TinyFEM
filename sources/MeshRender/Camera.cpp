@@ -53,7 +53,19 @@ void Camera::Update(const entry::MouseState& _mouseState)
 
 	m_mouseNow.m_mz = _mouseState.m_mz;
 	int32_t deltaZ = m_mouseNow.m_mz - m_mouseLast.m_mz;
+	if(deltaZ >0)
+	{
+		deltaZ = 1;
+	}
+	if(deltaZ<0)
+	{
+		deltaZ = -1;
+	}
 	m_fov *= (1.0f - deltaZ / 20.0f);
+	if(m_fov<0.001)
+	{
+		m_fov = 0.001;
+	}
 	m_mouseLast.m_mz = m_mouseNow.m_mz;
 
 	if (m_mouseDown)

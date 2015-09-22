@@ -22,7 +22,8 @@ public:
 
 	void SetNodes(	const StrideDataFixedArray& nodes,
 					const Eigen::VectorXf& deforms,
-					const std::vector<float> values);
+					const std::vector<float> values,
+					bool update = false);
 	
 	void PushMesh(	const ElementsContainer& elements, int elementStart, int elementEnd,
 					const IndexedStrideDataFixedArray& nodalForceList,
@@ -33,6 +34,7 @@ public:
 	void ResetMeshViewOptionsWindowPosition(bool force);
 	void SetRanges(float min, float max);
 	void SetIntervals(int intervals);
+	void ResetNeedForResize(){m_needResize = false;};
 
 private:
 	struct FemMesh

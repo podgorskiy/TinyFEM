@@ -310,8 +310,6 @@ void ProblemImpl::ReadElements(TiXmlHandle hRoot)
 	int elementsCount = 0;
 	std::string type;
 	xmldata::ParseValue(elemetsElementList->ToElement(), "count", elementsCount);
-	xmldata::ParseValue(elemetsElementList->ToElement(), "type", type);
-	fabric.SetType(type);
 	m_elements.Init(elementsCount);
 	xmldata::foreachChild(elemetsElementList->ToElement(), "element", ReadElementFunctor(m_elements, fabric));
 }

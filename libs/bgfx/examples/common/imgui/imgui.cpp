@@ -602,7 +602,7 @@ struct Imgui
 
 		m_missingTexture = genMissingTexture(256, 256, 0.04f);
 
-#if USE_NANOVG_FONT
+#if !USE_NANOVG_FONT
 		const ImguiFontHandle handle = createFont(_data, _fontSize);
 		m_currentFontIdx = handle.idx;
 #else

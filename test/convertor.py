@@ -14,7 +14,7 @@ def prettify(elem):
     return reparsed.toprettyxml(indent="  ")
 
 def GetContent():
-	with open("AbaqusFiles/PlateWithHole_CPS3.inp") as f:
+	with open("AbaqusFiles/PlateWithHole_CPS4.inp") as f:
 		return f.readlines()
 
 class AbaqusReader:
@@ -131,7 +131,7 @@ class AbaqusReader:
 			if type == "CPS4":
 				el = SubElement(ElementList, 'element', {"i": str(i), "indices": str(ns[0]) + ' ' + str(ns[1]) + ' ' + str(ns[2]) + ' ' + str(ns[3]), "type":"CPS4" })
 
-		text_file = open("PlateWithHole_CPS3.inp", "w")
+		text_file = open("PlateWithHole_CPS4.inp", "w")
 		text_file.write(prettify(top))
 		text_file.close()
 

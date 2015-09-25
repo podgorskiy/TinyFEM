@@ -233,7 +233,6 @@
     <element i="98" indices="61 64 118 121" type="CPS4"/>
     <element i="99" indices="118 60 110 121" type="CPS4"/>
   </ElementList>
-  
   <NodalForceList count = "8">
   	<force node = "0" x = "0.0" y = "1.875"/>
   	<force node = "1" x = "0.0" y = "1.875"/>

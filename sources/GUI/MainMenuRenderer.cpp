@@ -14,6 +14,7 @@ void MainMenuRenderer::RenderMainMenu()
 			ShowMenuFile();
 			ImGui::EndMenu();
 		}
+		/*
 		if (ImGui::BeginMenu("Edit"))
 		{
 			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
@@ -23,7 +24,7 @@ void MainMenuRenderer::RenderMainMenu()
 			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
 			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
 			ImGui::EndMenu();
-		}
+		}*/
 		if (ImGui::BeginMenu("Window"))
 		{
 			ShowMenuWindow();
@@ -66,10 +67,10 @@ void MainMenuRenderer::ShowMenuFile()
     ImGui::MenuItem("Web version cannot open user files.", NULL, false, false);
     ImGui::MenuItem("You may open only embedded examples,", NULL, false, false);
     ImGui::MenuItem("that are listed below", NULL, false, false);
-	if (ImGui::MenuItem("Open example 1")) {
+	if (ImGui::MenuItem("Open example PlateWithHole_CPS3")) {
 		m_openExampleSignal(1);
 	}
-	if (ImGui::MenuItem("Open example 2")) {
+	if (ImGui::MenuItem("Open example PlateWithHole_CPS4")) {
 		m_openExampleSignal(2);
 	}
 #endif

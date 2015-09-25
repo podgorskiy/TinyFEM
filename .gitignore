@@ -14,6 +14,16 @@
 *.js
 *.sdf
 *.ilk
+*.com
+*.dat
+*.ipm
+*.log
+*.msg
+*.odb
+*.prt
+*.rec
+*.sim
+*.sta
 projects/*
 
 # Precompiled Headers

@@ -5,12 +5,12 @@
 #include <vector>
 #include <cassert>
 
-class CPS4R : public IElement
+class CPS4 : public IElement
 {
 public:
-	CPS4R();
+	CPS4();
 	static void Init();
-	virtual const char* GetType()	{ return "CPS4R"; };
+	virtual const char* GetType()	{ return "CPS4"; };
 	virtual void SetIndices(const std::vector<int>& indices);
 	virtual std::vector<int> GetIndices() const;
 	virtual std::vector<Eigen::Vector3f> GetFunctionValuesAtNodes(const Eigen::VectorXf& deforms)const;
@@ -31,9 +31,6 @@ private:
 	Eigen::Matrix<float, 2, 2> GetJ(float xi, float eta) const;
 	Eigen::Matrix<float, 3, 8> GetB(float xi, float eta) const;
 
-	void GaussN5(int i, float& a, float& w) const;
-	void GaussN10(int i, float& a, float& w) const;
-
 	static Eigen::Matrix<float, 4, 4> m_C;
 	static Eigen::Matrix<float, 4, 4> m_IC;
 	
@@ -43,9 +40,4 @@ private:
 	MaterialPtr m_mat;
 	int	    m_nodes[4];
 	float   m_area;
-
-	static float k_G5_AbsTable[5];
-	static float k_G5_WeightTable[5];
-	static float k_G10_AbsTable[10];
-	static float k_G10_WeightTable[10];
 };

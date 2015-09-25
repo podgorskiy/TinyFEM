@@ -24,6 +24,7 @@ public:
 
 	void GetViewProj(float* dest) const;
 
+
 private:
 	MouseCoords m_mouseNow;
 	MouseCoords m_mouseLast;
@@ -36,4 +37,5 @@ private:
 
 	float viewProj[16];
 	bool m_mouseDown;
+
 };

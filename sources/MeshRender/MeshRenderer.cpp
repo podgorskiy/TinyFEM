@@ -47,6 +47,30 @@ struct NodeVertex
 bgfx::VertexDecl NodeVertex::ms_decl;
 
 
+struct LegendMesh
+{
+	static void Init()
+	{
+		static const NodeVertex vertices[4] =
+		{
+			{ {-1.0f, -1.0f, 0.0f }, 0.0f, { 0.0f, 0.0f, 0.0f } },
+			{ { 1.0f, -1.0f, 0.0f }, 0.0f, { 0.0f, 0.0f, 0.0f } },
+			{ { 1.0f,  1.0f, 0.0f }, 1.0f, { 0.0f, 0.0f, 0.0f } },
+			{ {-1.0f,  1.0f, 0.0f }, 1.0f, { 0.0f, 0.0f, 0.0f } },
+		};
+		static const uint16_t indices[6] =
+		{
+			0, 1, 2, 0, 2, 3
+		};
+		vbh = bgfx::createVertexBuffer(bgfx::makeRef(vertices, sizeof(vertices)), NodeVertex::ms_decl);
+		ibh = bgfx::createIndexBuffer(bgfx::makeRef(indices, sizeof(indices)));
+	};
+
+	static bgfx::VertexBufferHandle vbh;
+	static bgfx::IndexBufferHandle ibh;
+};
+
+
 struct SignVertex
 {
 	float m_pos[3];
@@ -90,7 +114,7 @@ struct LoadSign
 		SignVertex::init();
 		vbh = bgfx::createVertexBuffer(bgfx::makeRef(vertices, sizeof(vertices)), SignVertex::ms_decl);
 		ibh = bgfx::createIndexBuffer(bgfx::makeRef(indices, sizeof(indices)));
-	}
+	};
 
 	static bgfx::VertexBufferHandle vbh;
 	static bgfx::IndexBufferHandle ibh;
@@ -123,12 +147,14 @@ struct ConstSign
 		SignVertex::init();
 		vbh = bgfx::createVertexBuffer(bgfx::makeRef(vertices, sizeof(vertices)), SignVertex::ms_decl);
 		ibh = bgfx::createIndexBuffer(bgfx::makeRef(indices, sizeof(indices)));
-	}
+	};
 
 	static bgfx::VertexBufferHandle vbh;
 	static bgfx::IndexBufferHandle ibh;
 };
 
+bgfx::VertexBufferHandle LegendMesh::vbh;
+bgfx::IndexBufferHandle LegendMesh::ibh;
 
 bgfx::VertexBufferHandle LoadSign::vbh;
 bgfx::IndexBufferHandle LoadSign::ibh;
@@ -169,6 +195,7 @@ void MeshRenderer::Init()
 	
 	CreateMaterial(vs_meshPlot_h, sizeof(vs_meshPlot_h), fs_meshPlot_h, sizeof(fs_meshPlot_h));
 
+	LegendMesh::Init();
 	LoadSign::Init();
 	ConstSign::Init();
 	CreateMaterial(vs_sign_h, sizeof(vs_sign_h), fs_sign_h, sizeof(fs_sign_h));
@@ -351,6 +378,10 @@ void TransformToWorldSpace(float xInp, float yInp, float zInp, int width, int he
 
 void MeshRenderer::Render(int width, int height, Camera& camera)
 {
+#ifdef WIN32
+	_set_output_format(_TWO_DIGIT_EXPONENT);
+#endif
+
 	if (m_needResize)
 	{
 		float m_position[2];
@@ -414,7 +445,48 @@ void MeshRenderer::Render(int width, int height, Camera& camera)
 			RenderMesh(m_meshesList.m_meshes[i], m_alphaUndeformedMesh, BGFX_STATE_BLEND_EQUATION_ADD | BGFX_STATE_BLEND_ALPHA, true);
 		}
 	}
-	
+
+	{
+		float view[16] = {1.0f, 0, 0, 0, 0, 1.0f, 0, 0, 0, 0, 1.0f, 0, 0, 0, 0, 1.0f};
+		float ortho[16];
+
+		float BarTop = 1.05f;
+		float BarHeight = 0.9f;
+		float BarWidth = 0.1f;
+		float BarLeft = 0.02f;
+
+		float b = (4.0f / BarHeight* BarTop - 8.0f / BarHeight + 2.0f)*0.5;
+		float t = 4.0f / BarHeight + b;
+		float l = (4.0f / BarWidth* (2.0 - BarLeft - BarWidth) - 8.0f / BarWidth + 2.0f)*0.5;
+		float r = 4.0f / BarWidth + l;
+		bx::mtxOrtho(ortho, 
+			l, r, 
+			b,
+			t,
+			-2.0f, 2.0f);
+		bgfx::setViewTransform(1, view, ortho);
+		bgfx::setViewRect(1, 0, 0, width, height);
+		
+		for (int i = 0; i <= m_intervals; i++)
+		{
+			char label[1024];
+			sprintf(label, "%.3e", m_max - i * (m_max - m_min) / m_intervals);
+			float x = (BarLeft + BarWidth + 0.01f) / 2 * width;
+			float y = (BarTop + BarHeight / m_intervals * i + 0.01f) / 2 * height;
+			imguiDrawText(static_cast<int>(x), static_cast<int>(y), ImguiTextAlign::Left, label, 0xFFFFFFFF);
+		}
+
+		Eigen::Vector4f percantage(0.0, 0, 0, 0);
+		bgfx::setUniform(u_percantage, &percantage, 1);
+		bgfx::setVertexBuffer(LegendMesh::vbh);
+		bgfx::setIndexBuffer(LegendMesh::ibh);
+		bgfx::setState(BGFX_STATE_RGB_WRITE);
+		bgfx::submit(1, m_programs[0]);
+		percantage.x() = 1.0f;
+		bgfx::setUniform(u_percantage, &percantage, 1);
+		camera.UpplyTransform();
+	}
+
 	for (int i = 0, l = m_meshesList.m_meshes.size(); i < l; ++i)
 	{
 		if (m_renderElementsNumbers)

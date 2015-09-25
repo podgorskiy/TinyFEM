@@ -67,6 +67,11 @@ void Problem2DTypeSpecific::UpdateNodes(const Problem& problem, MeshRenderer* me
 			if (*it < min){ min = *it; }
 		}
 		meshRenderer->SetRanges(min, max);
+
+		for (std::vector<float>::iterator it = m_avarageValues.begin(); it != m_avarageValues.end(); ++it)
+		{
+			*it = (*it - min) / (max - min);
+		}
 	}
 
 	meshRenderer->SetNodes(problem.GetNodes(), problem.GetDeforms(), m_avarageValues);

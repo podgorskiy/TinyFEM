@@ -20,14 +20,7 @@ public:
 
 	void Init();
 
-	void SetNodes(	const StrideDataFixedArray& nodes,
-					const Eigen::VectorXf& deforms,
-					const std::vector<float> values,
-					bool update = false);
 	
-	void PushMesh(	const ElementsContainer& elements, int elementStart, int elementEnd,
-					const IndexedStrideDataFixedArray& nodalForceList,
-					const NodalConstraintList& nodalConstraintList);
 	void Clear();
 	void Render(int width, int height, Camera& camera);
 	void ShowMeshViewOptions();
@@ -35,20 +28,30 @@ public:
 	void SetRanges(float min, float max);
 	void SetIntervals(int intervals);
 	void ResetNeedForResize(){m_needResize = false;};
-
-private:
-	struct FemMesh
+	
+	class Mesh
 	{
-		bgfx::IndexBufferHandle			m_ibhTriang;
-		bgfx::IndexBufferHandle			m_ibhLines;
-		StrideDataFixedArray*			m_elementsCenters;
-		IndexedStrideDataFixedArray*	m_nodalForceList;
-		NodalConstraintList				m_nodalConstraintList;
-	};
-
-	struct MeshesList
-	{
-		std::vector<FemMesh>		m_meshes;
+	public:
+		struct Object
+		{
+			bgfx::IndexBufferHandle			m_ibhTriang;
+			bgfx::IndexBufferHandle			m_ibhLines;
+			StrideDataFixedArray*			m_elementsCenters;
+			IndexedStrideDataFixedArray*	m_nodalForceList;
+			NodalConstraintList				m_nodalConstraintList;
+		};
+		Mesh();
+		void SetNodes(const StrideDataFixedArray& nodes,
+			const Eigen::VectorXf& deforms,
+			const std::vector<float> values,
+			bool update = false);
+		void PushMesh(const ElementsContainer& elements, int elementStart, int elementEnd,
+			const IndexedStrideDataFixedArray& nodalForceList,
+			const NodalConstraintList& nodalConstraintList);
+		void Render(int width, int height, Camera& camera);
+	private:
+		void RenderObject(const Object& mesh, float alpha, uint64_t _state, bool grey = false);
+		std::vector<Object>			m_objectList;
 		bgfx::VertexBufferHandle	m_vbh;
 		StrideDataFixedArray		m_nodesCopy;
 		Eigen::VectorXf				m_nodesDeformation;
@@ -56,16 +59,16 @@ private:
 		bool						m_hasValues;
 	};
 
+private:
 
 	void CreateMaterial(const uint8_t* v, uint32_t sizev, const uint8_t* f, uint32_t sizef);
-	void RenderMesh(const FemMesh& mesh, float alpha, uint64_t _state, bool grey = false);
-	void RenderElementsNumbers(const FemMesh& mesh, int width, int height, const Camera& camera);
+	void RenderElementsNumbers(const Mesh::Object& mesh, int width, int height, const Camera& camera);
 	void RenderNodesNumbers(int width, int height, const Camera& camera);
 
-	void RenderBC(const FemMesh& mesh);
-	void RenderSign(const FemMesh& mesh, int node, bgfx::VertexBufferHandle, bgfx::IndexBufferHandle, float direction[3]);
+	void RenderBC(const Mesh::Object& mesh);
+	void RenderSign(const Mesh::Object& mesh, int node, bgfx::VertexBufferHandle, bgfx::IndexBufferHandle, float direction[3]);
 
-	MeshesList m_meshesList;
+	Mesh m_meshesList;
 	std::vector<bgfx::ProgramHandle> m_programs;
 	bgfx::UniformHandle u_percantage;
 	bgfx::UniformHandle u_color;

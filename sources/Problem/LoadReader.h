@@ -1,19 +1,19 @@
 #pragma once
 #include "Load.h"
 
-class StrideDataFixedArray;
-class IndexedStrideDataFixedArray;
+class StrideDataArray;
+class IndexedStrideDataArray;
 class TiXmlElement;
 
 class ReadNodalForceFunctor
 {
 public:
-	ReadNodalForceFunctor(IndexedStrideDataFixedArray& loads);
+	ReadNodalForceFunctor(IndexedStrideDataArray& loads);
 	void operator()(TiXmlElement* loadElement);
 
 private:
 	int m_iterator;
-	IndexedStrideDataFixedArray& loads;
+	IndexedStrideDataArray& loads;
 };
 
 class ReadNodalConstraintFunctor

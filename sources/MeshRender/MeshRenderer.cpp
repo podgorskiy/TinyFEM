@@ -1,17 +1,10 @@
 #include "MeshRenderer.h"
 #include <bgfx.h>
 #include <bx/timer.h>
-#include <bx/fpumath.h>
-#include <bgfx_utils.h>
 
 #include "StrideDataFixedArray.h"
 #include "Elements/ElementsContainer.h"
 #include "Elements/IElement.h"
-
-#include "../shaders/fs_meshPlot.h"
-#include "../shaders/vs_meshPlot.h"
-#include "../shaders/fs_sign.h"
-#include "../shaders/vs_sign.h"
 
 #include <ocornut-imgui/imgui.h>
 #include <imgui/imgui.h>
@@ -23,153 +16,19 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/quaternion.hpp>
 
+#include "Signs.h"
+#include "VertexDeclarations.h"
+
+#include "TransformUtils.h"
+
+#include "MaterialManager.h"
+
+#include "Mesh.h"
+
+#include "ScaleBar.h"
+
 std::string meshViewOptionTitle = "Mesh view options";
 
-struct NodeVertex
-{
-	float m_pos[3];
-	float m_val;
-	float m_def[3];
-
-	static void init()
-	{
-		ms_decl
-			.begin()
-			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::TexCoord0, 1, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::TexCoord1, 3, bgfx::AttribType::Float)
-			.end();
-	};
-
-	static bgfx::VertexDecl ms_decl;
-};
-
-bgfx::VertexDecl NodeVertex::ms_decl;
-
-
-struct LegendMesh
-{
-	static void Init()
-	{
-		static const NodeVertex vertices[4] =
-		{
-			{ {-1.0f, -1.0f, 0.0f }, 0.0f, { 0.0f, 0.0f, 0.0f } },
-			{ { 1.0f, -1.0f, 0.0f }, 0.0f, { 0.0f, 0.0f, 0.0f } },
-			{ { 1.0f,  1.0f, 0.0f }, 1.0f, { 0.0f, 0.0f, 0.0f } },
-			{ {-1.0f,  1.0f, 0.0f }, 1.0f, { 0.0f, 0.0f, 0.0f } },
-		};
-		static const uint16_t indices[6] =
-		{
-			0, 1, 2, 0, 2, 3
-		};
-		vbh = bgfx::createVertexBuffer(bgfx::makeRef(vertices, sizeof(vertices)), NodeVertex::ms_decl);
-		ibh = bgfx::createIndexBuffer(bgfx::makeRef(indices, sizeof(indices)));
-	};
-
-	static bgfx::VertexBufferHandle vbh;
-	static bgfx::IndexBufferHandle ibh;
-};
-
-
-struct SignVertex
-{
-	float m_pos[3];
-	static void init()
-	{
-		ms_decl
-			.begin()
-			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-			.end();
-	};
-
-	static bgfx::VertexDecl ms_decl;
-};
-
-bgfx::VertexDecl SignVertex::ms_decl;
-
-struct LoadSign
-{
-	static void Init()
-	{
-		static const SignVertex vertices[6] =
-		{
-			{ { 0.0f, 0.0f, 0.0f } },
-			{ { 1.0f, 0.0f, 0.0f } },
-			{ { 0.7f, 0.1f, 0.0f }},
-			{ { 0.7f, 0.0f, 1.0f } },
-			{ { 0.7f, -0.1f, 0.0f } },
-			{ { 0.7f, 0.0f, -1.0f } },
-		};
-		static const uint16_t indices[16] =
-		{
-			0, 1,
-			1, 2,
-			1, 3,
-			1, 4,
-			1, 5,
-			2, 3,
-			3, 4,
-			4, 5,
-		};
-		SignVertex::init();
-		vbh = bgfx::createVertexBuffer(bgfx::makeRef(vertices, sizeof(vertices)), SignVertex::ms_decl);
-		ibh = bgfx::createIndexBuffer(bgfx::makeRef(indices, sizeof(indices)));
-	};
-
-	static bgfx::VertexBufferHandle vbh;
-	static bgfx::IndexBufferHandle ibh;
-};
-
-struct ConstSign
-{
-	static void Init()
-	{
-		static const SignVertex vertices[6] =
-		{
-			{ { 0.0f, 0.0f, 0.0f } },
-			{ { -0.2f, 0.0f, 0.0f } },
-			{ { -0.2f, 0.15f, 0.0f } },
-			{ { -0.2f, 0.0f, 0.15f } },
-			{ { -0.2f, -0.15f, 0.0f } },
-			{ { -0.2f, 0.0f, -0.15f } },
-		};
-		static const uint16_t indices[16] =
-		{
-			0, 1,
-			1, 2,
-			1, 3,
-			1, 4,
-			1, 5,
-			2, 3,
-			3, 4,
-			4, 5,
-		};
-		SignVertex::init();
-		vbh = bgfx::createVertexBuffer(bgfx::makeRef(vertices, sizeof(vertices)), SignVertex::ms_decl);
-		ibh = bgfx::createIndexBuffer(bgfx::makeRef(indices, sizeof(indices)));
-	};
-
-	static bgfx::VertexBufferHandle vbh;
-	static bgfx::IndexBufferHandle ibh;
-};
-
-bgfx::VertexBufferHandle LegendMesh::vbh;
-bgfx::IndexBufferHandle LegendMesh::ibh;
-
-bgfx::VertexBufferHandle LoadSign::vbh;
-bgfx::IndexBufferHandle LoadSign::ibh;
-
-bgfx::VertexBufferHandle ConstSign::vbh;
-bgfx::IndexBufferHandle ConstSign::ibh;
-
-void MeshRenderer::CreateMaterial(const uint8_t* v, uint32_t sizev, const uint8_t* f, uint32_t sizef)
-{
-	const bgfx::Memory* vs = bgfx::makeRef(v, sizev);
-	const bgfx::Memory* fs = bgfx::makeRef(f, sizef);
-	bgfx::ShaderHandle vsh = bgfx::createShader(vs);
-	bgfx::ShaderHandle fsh = bgfx::createShader(fs);
-	m_programs.push_back(bgfx::createProgram(vsh, fsh));
-}
 
 void MeshRenderer::Init()
 {
@@ -187,153 +46,14 @@ void MeshRenderer::Init()
 	m_needResize = false;
 	
 	NodeVertex::init();
-	u_percantage = bgfx::createUniform("u_percantage", bgfx::UniformType::Vec4);
-	u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
-	u_deformScale = bgfx::createUniform("u_deformScale", bgfx::UniformType::Vec4);
-	u_rangesIntervals = bgfx::createUniform("u_rangesIntervals", bgfx::UniformType::Vec4);
-	
-	CreateMaterial(vs_meshPlot_h, sizeof(vs_meshPlot_h), fs_meshPlot_h, sizeof(fs_meshPlot_h));
-
 	LegendMesh::Init();
 	LoadSign::Init();
 	ConstSign::Init();
-	CreateMaterial(vs_sign_h, sizeof(vs_sign_h), fs_sign_h, sizeof(fs_sign_h));
+
+	m_materialManager.Init();
+	m_materialManager.CreateDefaultMaterials();
 }
 
-void MeshRenderer::Mesh::SetNodes(
-	const StrideDataFixedArray& nodes,
-	const Eigen::VectorXf& deforms,
-	const std::vector<float> values, 
-	bool update)
-{
-	m_max_bound = Eigen::Vector3f(FLT_MIN, FLT_MIN, FLT_MIN);
-	m_min_bound = Eigen::Vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
-	int dof = nodes.GetDof();
-	int nodesCount = nodes.GetCount();
-	NodeVertex* vertices = new NodeVertex[nodesCount];
-
-	m_hasDeforms = deforms.size() == nodesCount * dof;
-	m_hasValues = values.size() == nodesCount;
-
-	for (int i = 0; i < nodesCount; ++i)
-	{
-		vertices[i].m_val = 0;
-		for (int j = 0; j < 3; ++j)
-		{
-			vertices[i].m_pos[j] = 0;
-			vertices[i].m_def[j] = 0;
-		}
-		for (int j = 0; j < dof; ++j)
-		{
-			vertices[i].m_pos[j] = nodes(i, j);
-			if (m_max_bound[j] < nodes(i, j)){ m_max_bound[j] = nodes(i, j); }
-			if (m_min_bound[j] > nodes(i, j)){ m_min_bound[j] = nodes(i, j); }
-		}
-	}
-	if (m_hasDeforms)
-	{
-		for (int i = 0; i < nodesCount; ++i)
-		{
-			for (int j = 0; j < dof; ++j)
-			{
-				vertices[i].m_def[j] = deforms(dof * i + j);
-			}
-		}
-	}
-	if (m_hasValues)
-	{
-		for (int i = 0; i < nodesCount; ++i)
-		{
-			vertices[i].m_val = values[i];
-		}
-	}
-	m_nodesDeformation = deforms;
-	nodes.MakeCopy(m_nodesCopy);
-	m_hasDeforms = (deforms.size() == nodesCount * dof);
-
-	m_vbh = bgfx::createVertexBuffer(bgfx::makeRef(vertices, sizeof(NodeVertex) * nodesCount), NodeVertex::ms_decl);
-
-	//m_needResize = !update;
-}
-
-void MeshRenderer::Mesh::PushMesh(	const ElementsContainer& elements, int elementStart, int elementEnd,
-								const IndexedStrideDataFixedArray& nodalForceList,
-								const NodalConstraintList& nodalConstraintList)
-{
-	Object m;
-	int dof = m_nodesCopy.GetDof();
-	int nodesCount = m_nodesCopy.GetCount();
-	if (elements.GetCount() < elementEnd)
-	{
-		return;
-	}
-	int elementsCount = elementEnd - elementStart;
-		
-	m.m_nodalConstraintList = nodalConstraintList;
-	
-	m.m_elementsCenters = new StrideDataFixedArray;
-	m.m_nodalForceList = new IndexedStrideDataFixedArray;
-
-	nodalForceList.MakeCopy(*m.m_nodalForceList);
-
-	m.m_elementsCenters->Init(dof, elementEnd - elementStart);
-	{
-		std::vector<uint32_t>* indices = new std::vector<uint32_t>;
-		for (int i = 0; i < elementsCount; ++i)
-		{
-			std::vector<int> ind = elements(i + elementStart)->GetIndices();
-			if (ind.size() == 3)
-			{
-				indices->push_back(ind[0]);
-				indices->push_back(ind[1]);
-				indices->push_back(ind[2]);
-			}			
-			if (ind.size() == 4)
-			{
-				indices->push_back(ind[0]);
-				indices->push_back(ind[1]);
-				indices->push_back(ind[3]);
-				indices->push_back(ind[1]);
-				indices->push_back(ind[2]);
-				indices->push_back(ind[3]);
-			}
-			//(*m.m_elementsCenters)(i, 0) = (m_meshesList.m_nodesCopy(ind[0], 0) + (m_meshesList.m_nodesCopy)(ind[1], 0) + (m_meshesList.m_nodesCopy)(ind[2], 0)) / 3.0f;
-			//(*m.m_elementsCenters)(i, 1) = (m_meshesList.m_nodesCopy(ind[0], 1) + (m_meshesList.m_nodesCopy)(ind[1], 1) + (m_meshesList.m_nodesCopy)(ind[2], 1)) / 3.0f;
-		}
-		m.m_ibhTriang = bgfx::createIndexBuffer(bgfx::makeRef(&(*indices)[0], sizeof(uint32_t) * indices->size()), BGFX_BUFFER_INDEX32);
-		//delete indices;
-	}
-	{
-		std::vector<uint32_t>* indices = new std::vector<uint32_t>;
-		for (int i = 0; i < elementsCount; ++i)
-		{
-			std::vector<int> ind = elements(i + elementStart)->GetIndices();			
-			if (ind.size() == 3)
-			{
-				indices->push_back(ind[0]);
-				indices->push_back(ind[1]);
-				indices->push_back(ind[1]);
-				indices->push_back(ind[2]);
-				indices->push_back(ind[2]);
-				indices->push_back(ind[0]);
-			}
-			if (ind.size() == 4)
-			{
-				indices->push_back(ind[0]);
-				indices->push_back(ind[1]);
-				indices->push_back(ind[1]);
-				indices->push_back(ind[2]);
-				indices->push_back(ind[2]);
-				indices->push_back(ind[3]);
-				indices->push_back(ind[3]);
-				indices->push_back(ind[0]);
-			}
-		}
-		m.m_ibhLines = bgfx::createIndexBuffer(bgfx::makeRef(&(*indices)[0], sizeof(uint32_t) * indices->size()), BGFX_BUFFER_INDEX32);
-		//delete indices;
-	}
-	m_objectList.push_back(m);
-}
 
 void MeshRenderer::ShowMeshViewOptions()
 {
@@ -359,32 +79,19 @@ void MeshRenderer::ResetMeshViewOptionsWindowPosition(bool force)
 	ImGui::SetWindowSize(meshViewOptionTitle.c_str(), vsize, cond);
 }
 
-void TransformToWorldSpace(float xInp, float yInp, float zInp, int width, int height, const Camera& camera, float& xOut, float& yOut)
-{
-	float pos[4];
-	float posTransformed[4];
-	pos[0] = xInp;
-	pos[1] = yInp;
-	pos[2] = zInp;
-	pos[3] = 1.0f;
-	float viewProj[16];
-	camera.GetViewProj(viewProj);
-	bx::vec4MulMtx(posTransformed, pos, viewProj);
-	
-	xOut = posTransformed[0] / 2.0f * width + width / 2.0f;
-	yOut = height / 2.0f - posTransformed[1] / 2.0f * height;
-}
-
-void MeshRenderer::Mesh::Render(int width, int height, Camera& camera)
-{
-	for (int i = 0, l = m_objectList.size(); i < l; ++i)
-	{
-		RenderObject(m_objectList[i], 1.0f, 0);
-	}
-}
 
 void MeshRenderer::Render(int width, int height, Camera& camera)
 {
+	RenderContext cntxt;
+	cntxt.m_camera = &camera;
+	cntxt.m_height = height;
+	cntxt.m_width = width;
+	cntxt.m_materialManager = &m_materialManager;
+	cntxt.m_renderNodes = m_renderNodes;
+	cntxt.m_renderWireframe = m_renderWireframe;
+
+	m_width = width;
+
 #ifdef WIN32
 	_set_output_format(_TWO_DIGIT_EXPONENT);
 #endif
@@ -402,10 +109,7 @@ void MeshRenderer::Render(int width, int height, Camera& camera)
 		m_needResize = false;
 	}
 
-	m_width = width;
-	Eigen::Vector4f percantage(1.0,0,0,0);
-	bgfx::setUniform(u_percantage, &percantage, 1);
-	
+		
 	if (m_showMeshViewOption)
 	{
 		if (ImGui::Begin(meshViewOptionTitle.c_str(), &m_showMeshViewOption))
@@ -431,71 +135,43 @@ void MeshRenderer::Render(int width, int height, Camera& camera)
 		ImGui::End();
 	}
 
-	Eigen::Vector4f deformScale(m_deformScale, m_deformScale, m_deformScale, m_deformScale);
-	bgfx::setUniform(u_deformScale, deformScale.data(), 1);
+	m_materialManager.SetIntervals(m_min, m_max, m_intervals);
+	m_materialManager.SetRenderPlotEnabled(false);
 
-	Eigen::Vector4f rangesIntervals(m_min, m_max, m_intervals - 1.0f, 0.0f);
-	bgfx::setUniform(u_rangesIntervals, rangesIntervals.data(), 1);
+	m_materialManager.SetDeformsScale(m_deformScale);
 
-	//for (int i = 0, l = m_meshesList.m_objectList.size(); i < l; ++i)
+	cntxt.m_alpha = 1.0f;
+	cntxt.m_greyMode = false;
+	cntxt.m_state = 0;
+
+	for (int i = 0, l = m_meshesList.size(); i < l; ++i)
 	{
-		m_meshesList.Render(width, height, camera);
-		//RenderMesh(m_meshesList.m_objectList[i], 1.0f, 0);
+		m_meshesList[i].Render(cntxt);
 	}
 
-	deformScale.setZero();
-	bgfx::setUniform(u_deformScale, deformScale.data(), 1);
+	m_materialManager.SetDeformsScale(0);
 
-	if (m_renderUndeformedMesh && m_meshesList.m_hasDeforms)
+	cntxt.m_alpha = m_alphaUndeformedMesh;
+	cntxt.m_greyMode = true;
+	cntxt.m_state = BGFX_STATE_BLEND_EQUATION_ADD | BGFX_STATE_BLEND_ALPHA;
+
+	if (m_renderUndeformedMesh)
 	{
-		m_meshesList.Render(width, height, camera);
-		for (int i = 0, l = m_meshesList.m_objectList.size(); i < l; ++i)
+		for (int i = 0, l = m_meshesList.size(); i < l; ++i)
 		{
-			RenderMesh(m_meshesList.m_objectList[i], m_alphaUndeformedMesh, BGFX_STATE_BLEND_EQUATION_ADD | BGFX_STATE_BLEND_ALPHA, true);
+			if (m_meshesList[i].HasDeforms())
+			{
+				m_meshesList[i].Render(cntxt);
+			}
 		}
 	}
 
-	{
-		float view[16] = {1.0f, 0, 0, 0, 0, 1.0f, 0, 0, 0, 0, 1.0f, 0, 0, 0, 0, 1.0f};
-		float ortho[16];
+	cntxt.m_alpha = 1.0f;
+	cntxt.m_greyMode = false;
+	cntxt.m_state = 0;
+	RenderScaleBar(cntxt, m_max, m_min, m_intervals);
 
-		float BarTop = 1.05f;
-		float BarHeight = 0.9f;
-		float BarWidth = 0.1f;
-		float BarLeft = 0.02f;
-
-		float b = (4.0f / BarHeight* BarTop - 8.0f / BarHeight + 2.0f)*0.5;
-		float t = 4.0f / BarHeight + b;
-		float l = (4.0f / BarWidth* (2.0 - BarLeft - BarWidth) - 8.0f / BarWidth + 2.0f)*0.5;
-		float r = 4.0f / BarWidth + l;
-		bx::mtxOrtho(ortho, 
-			l, r, 
-			b,
-			t,
-			-2.0f, 2.0f);
-		bgfx::setViewTransform(1, view, ortho);
-		bgfx::setViewRect(1, 0, 0, width, height);
-		
-		for (int i = 0; i <= m_intervals; i++)
-		{
-			char label[1024];
-			sprintf(label, "%.3e", m_max - i * (m_max - m_min) / m_intervals);
-			float x = (BarLeft + BarWidth + 0.01f) / 2 * width;
-			float y = (BarTop + BarHeight / m_intervals * i + 0.01f) / 2 * height;
-			imguiDrawText(static_cast<int>(x), static_cast<int>(y), ImguiTextAlign::Left, label, 0xFFFFFFFF);
-		}
-
-		Eigen::Vector4f percantage(0.0, 0, 0, 0);
-		bgfx::setUniform(u_percantage, &percantage, 1);
-		bgfx::setVertexBuffer(LegendMesh::vbh);
-		bgfx::setIndexBuffer(LegendMesh::ibh);
-		bgfx::setState(BGFX_STATE_RGB_WRITE);
-		bgfx::submit(1, m_programs[0]);
-		percantage.x() = 1.0f;
-		bgfx::setUniform(u_percantage, &percantage, 1);
-		camera.UpplyTransform();
-	}
-
+	/*
 	for (int i = 0, l = m_meshesList.m_objectList.size(); i < l; ++i)
 	{
 		if (m_renderElementsNumbers)
@@ -509,6 +185,7 @@ void MeshRenderer::Render(int width, int height, Camera& camera)
 	{
 		RenderNodesNumbers(width, height, camera);
 	}
+	*/
 }
 
 void MeshRenderer::Clear()
@@ -530,51 +207,7 @@ void MeshRenderer::Clear()
 	*/
 }
 
-void MeshRenderer::Mesh::RenderObject(const Object& mesh, float alpha, uint64_t _state, bool grey)
-{
-	Eigen::Vector4f color(0.1, 0.6, 0.3, alpha);
-	if (grey) { color.x() *= 0.5; color.y() *= 0.5; color.z() *= 0.5; }
-	bgfx::setUniform(u_color, color.data(), 1);
-	
-	if (!grey)
-	{
-		Eigen::Vector4f percantage(0.0, 0, 0, 0);
-		bgfx::setUniform(u_percantage, &percantage, 1);
-	}
-
-	bgfx::setVertexBuffer(m_vbh);
-	bgfx::setIndexBuffer(mesh.m_ibhTriang);
-	bgfx::setState(BGFX_STATE_RGB_WRITE | BGFX_STATE_MSAA | _state);
-	bgfx::submit(0, m_programs[0]);
-
-	if (!grey)
-	{
-		Eigen::Vector4f percantage(1.0, 0, 0, 0);
-		bgfx::setUniform(u_percantage, &percantage, 1);
-	}
-
-	if (m_renderWireframe)
-	{
-		Eigen::Vector4f color(0.0, 0.0, 0.0, alpha);
-		//if (grey) { color.x() *= 0.5; color.y() *= 0.5; color.z() *= 0.5; }
-		bgfx::setUniform(u_color, color.data(), 1);
-
-		bgfx::setVertexBuffer(m_vbh);
-		bgfx::setIndexBuffer(mesh.m_ibhLines);
-		bgfx::setState(BGFX_STATE_RGB_WRITE | BGFX_STATE_MSAA | BGFX_STATE_PT_LINES | _state);
-		bgfx::submit(0, m_programs[0]);
-	}
-	if (m_renderNodes)
-	{
-		Eigen::Vector4f color(0.8, 0.6, 0.2, alpha);
-		bgfx::setUniform(u_color, color.data(), 1);
-
-		bgfx::setVertexBuffer(m_vbh);
-		bgfx::setState(BGFX_STATE_RGB_WRITE | BGFX_STATE_MSAA | BGFX_STATE_PT_POINTS | BGFX_STATE_POINT_SIZE(3) | _state);
-		bgfx::submit(0, m_programs[0]);
-	}
-}
-
+/*
 void MeshRenderer::RenderElementsNumbers(const Object& mesh, int width, int height, const Camera& camera)
 {
 	for (int j = 0; j < mesh.m_elementsCenters->GetCount(); ++j)
@@ -663,48 +296,8 @@ void MeshRenderer::RenderBC(const Object& mesh)
 		}
 	}
 }
+*/
 
-void MeshRenderer::RenderSign(const Object& mesh, int node, bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh, float direction[3])
-{
-	int dof = m_meshesList.m_nodesCopy.GetDof();
-	float xp;
-	float yp;
-	float zp;
-	if (m_meshesList.m_hasDeforms)
-	{
-		xp = m_meshesList.m_nodesCopy(node, 0) + m_meshesList.m_nodesDeformation[dof * node + 0] * m_deformScale;
-		yp = m_meshesList.m_nodesCopy(node, 1) + m_meshesList.m_nodesDeformation[dof * node + 1] * m_deformScale;
-		zp = dof == 3 ? (m_meshesList.m_nodesCopy(node, 2) + m_meshesList.m_nodesDeformation[dof * node + 2] * m_deformScale) : 0.0f;
-
-	}
-	else
-	{
-		xp = m_meshesList.m_nodesCopy(node, 0);
-		yp = m_meshesList.m_nodesCopy(node, 1);
-		zp = dof == 3 ? (m_meshesList.m_nodesCopy(node, 2)) : 0.0f;
-	}
-
-	glm::mat4 translation = glm::translate(glm::vec3(xp, yp, zp));
-
-	glm::vec3 loadDirection = glm::normalize(glm::vec3(direction[0], direction[1], direction[2]));
-
-	glm::quat q;
-	glm::vec3 a = glm::cross(glm::vec3(1.0, 0.0, 0.0), loadDirection);
-	q.x = a.x;
-	q.y = a.y;
-	q.z = a.z;
-	q.w = sqrt(1.0f + loadDirection.x);
-	q = glm::normalize(q);
-	glm::mat4 rotation = glm::mat4(q);
-
-	bgfx::setVertexBuffer(vbh);
-	bgfx::setIndexBuffer(ibh);
-	glm::mat4 transform = translation* rotation;
-	bgfx::setTransform(&transform);
-
-	bgfx::setState(BGFX_STATE_RGB_WRITE | BGFX_STATE_MSAA | BGFX_STATE_PT_LINES);
-	bgfx::submit(0, m_programs[1]);
-}
 
 void MeshRenderer::SetRanges(float min, float max)
 {
@@ -719,9 +312,4 @@ void MeshRenderer::SetRanges(float min, float max)
 void MeshRenderer::SetIntervals(int intervals)
 {
 	m_intervals = intervals;
-}
-
-MeshRenderer::Mesh::Mesh()
-{
-	m_vbh.idx= -1;
 }

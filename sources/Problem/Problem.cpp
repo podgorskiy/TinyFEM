@@ -25,10 +25,10 @@ struct ProblemImpl
 	template<typename Solver>
 	void SolveSLI(int maxIterationCount, float expsilon);
 	
-	StrideDataFixedArray			m_nodes;
+	StrideDataArray					m_nodes;
 	ElementsContainer				m_elements;
 	MaterialsLibrary				m_matLib;
-	IndexedStrideDataFixedArray		m_nodalForceList;
+	IndexedStrideDataArray			m_nodalForceList;
 	NodalConstraintList				m_nodalConstraintList;
 	ProblemDescription				m_desc;
 
@@ -219,7 +219,7 @@ const ProblemDescription& Problem::GetProblemDescription() const
 	return m_impl->m_desc;
 }
 
-const StrideDataFixedArray& Problem::GetNodes() const
+const StrideDataArray& Problem::GetNodes() const
 {
 	return m_impl->m_nodes;
 }
@@ -234,7 +234,7 @@ const Eigen::VectorXf& Problem::GetDeforms() const
 	return m_impl->m_output;
 }
 
-const IndexedStrideDataFixedArray& Problem::GetNodalForceList() const
+const IndexedStrideDataArray& Problem::GetNodalForceList() const
 {
 	return m_impl->m_nodalForceList;
 }

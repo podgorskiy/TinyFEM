@@ -1,14 +1,14 @@
 #pragma once
 
-class StrideDataFixedArray;
+class StrideDataArray;
 class TiXmlElement;
 
 class ReadNodeFunctor
 {
 public:
-	ReadNodeFunctor(StrideDataFixedArray& nodes);
+	ReadNodeFunctor(StrideDataArray& nodes);
 	void operator()(TiXmlElement* nodeElement);
 
 private:
-	StrideDataFixedArray& nodes;
+	StrideDataArray& nodes;
 };

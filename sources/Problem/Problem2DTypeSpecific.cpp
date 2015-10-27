@@ -74,16 +74,18 @@ void Problem2DTypeSpecific::UpdateNodes(const Problem& problem, MeshRenderer* me
 		}
 	}
 
-	meshRenderer->SetNodes(problem.GetNodes(), problem.GetDeforms(), m_avarageValues);
+	//meshRenderer->SetNodes(problem.GetNodes(), problem.GetDeforms(), m_avarageValues);
 	LOGI("Updated nodes.");
 }
 
 void Problem2DTypeSpecific::SubmitMeshesToRender(const Problem& problem, MeshRenderer* meshRenderer) const
 {
+	/*
 	meshRenderer->PushMesh(
 		problem.GetElements(), 0, problem.GetElements().GetCount(), 
 		problem.GetNodalForceList(),
 		problem.GetNodalConstraintList());
+		*/
 }
 
 float MaxPrincipal(float x, float y, float xy)

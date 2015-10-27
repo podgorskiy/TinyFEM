@@ -2,7 +2,7 @@
 #include "StrideDataFixedArray.h"
 #include "XMLDataUtils.h"
 
-ReadNodeFunctor::ReadNodeFunctor(StrideDataFixedArray& nodes) :nodes(nodes){};
+ReadNodeFunctor::ReadNodeFunctor(StrideDataArray& nodes) :nodes(nodes){};
 
 void ReadNodeFunctor::operator()(TiXmlElement* nodeElement)
 {

@@ -40,7 +40,7 @@ std::vector<Eigen::Vector3f> CPS3::GetFunctionValuesAtNodes(const Eigen::VectorX
 	return output;
 }
 
-void CPS3::CalcK(const StrideDataFixedArray& nodes, const tfem::MaterialPtr mat, std::vector<Eigen::Triplet<float> >& tripletVector)
+void CPS3::CalcK(const StrideDataArray& nodes, const tfem::MaterialPtr mat, std::vector<Eigen::Triplet<float> >& tripletVector)
 {
 	m_mat = mat;
 	Eigen::Vector3f x;

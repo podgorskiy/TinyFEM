@@ -1,132 +1,112 @@
 #pragma once
 #include "Common.h"
+#include <vector>
 
-class StrideDataFixedArray
+class StrideDataArray
 {
 private:
-	StrideDataFixedArray(const StrideDataFixedArray& other){};
-	void operator= (const StrideDataFixedArray& other){};
+	StrideDataArray(const StrideDataArray& other){};
+	void operator= (const StrideDataArray& other){};
 public:
-	StrideDataFixedArray();
-	~StrideDataFixedArray();
+	StrideDataArray();
+	~StrideDataArray();
 	void Init(int nodeDOF, int nodeCount);
 	float& operator ()(int i, int j);
 	const float& operator ()(int i, int j) const;
 	int GetCount() const;
-	void MakeCopy(StrideDataFixedArray& other) const;
+	void MakeCopy(StrideDataArray& other) const;
 	int GetDof() const;
 
 protected:
 	int m_dof;
-	int m_nodeCount;
-	float* m_data;
+	std::vector<float> m_data;
 };
 
-class IndexedStrideDataFixedArray : public StrideDataFixedArray
+class IndexedStrideDataArray : public StrideDataArray
 {
 public:
-	IndexedStrideDataFixedArray();
-	~IndexedStrideDataFixedArray();
+	IndexedStrideDataArray();
+	~IndexedStrideDataArray();
 	void Init(int nodeDOF, int nodeCount);
 	int& operator [](int i);
 	int operator [](int i) const;
-	void MakeCopy(IndexedStrideDataFixedArray& other) const;
+	void MakeCopy(IndexedStrideDataArray& other) const;
 
 private:
-	int* m_idices;
+	std::vector<int> m_idices;
 };
 
-inline StrideDataFixedArray::StrideDataFixedArray() :m_data(NULL)
+inline StrideDataArray::StrideDataArray()
 {
 };
 
-inline StrideDataFixedArray::~StrideDataFixedArray()
+inline StrideDataArray::~StrideDataArray()
 {
-	SafeDeleteArray(m_data);
 }
 
-inline void StrideDataFixedArray::Init(int nodeDOF, int nodeCount)
+inline void StrideDataArray::Init(int nodeDOF, int nodeCount)
 {
-	SafeDeleteArray(m_data);
-    m_dof = nodeDOF;
-    m_nodeCount = nodeCount;
-	if (m_dof != 0 && m_nodeCount != 0)
+	m_dof = nodeDOF;
+	m_data.clear();
+	if (m_dof != 0 && nodeCount != 0)
 	{
-		m_data = new float[m_dof * m_nodeCount];
+		m_data.resize(m_dof * nodeCount);
 	}
 }
 
-inline float& StrideDataFixedArray::operator()(int i, int j)
+inline float& StrideDataArray::operator()(int i, int j)
 {
-	return *(m_data + i * m_dof + j);
+	return *(m_data.data() + i * m_dof + j);
 }
 
-inline const float& StrideDataFixedArray::operator()(int i, int j) const
+inline const float& StrideDataArray::operator()(int i, int j) const
 {
-	return *(m_data + i * m_dof + j);
+	return *(m_data.data() + i * m_dof + j);
 }
 
-inline int StrideDataFixedArray::GetCount() const
+inline int StrideDataArray::GetCount() const
 {
-	return m_nodeCount;
+	return m_data.size() / m_dof;
 }
 
-inline void StrideDataFixedArray::MakeCopy(StrideDataFixedArray& other) const
+inline void StrideDataArray::MakeCopy(StrideDataArray& other) const
 {
-	other.Init(m_dof, m_nodeCount);
-	for (int i = 0; i < m_nodeCount; ++i)
-	{
-		for (int j = 0; j < m_dof; ++j)
-		{
-			other(i, j) = operator()(i, j);
-		}
-	}
+	other.m_data = m_data;
+	other.m_dof = m_dof;
 }
 
-inline int StrideDataFixedArray::GetDof() const
+inline int StrideDataArray::GetDof() const
 {
 	return m_dof;
 }
 
-inline int& IndexedStrideDataFixedArray::operator[](int i)
+inline int& IndexedStrideDataArray::operator[](int i)
 {
-	return m_idices[i];
+	return m_idices.data()[i];
 }
 
-inline int IndexedStrideDataFixedArray::operator [](int i) const
+inline int IndexedStrideDataArray::operator [](int i) const
 {
-	return m_idices[i];
+	return m_idices.data()[i];
 }
 
-inline void IndexedStrideDataFixedArray::Init(int nodeDOF, int nodeCount)
+inline void IndexedStrideDataArray::Init(int nodeDOF, int nodeCount)
 {
-	StrideDataFixedArray::Init(nodeDOF, nodeCount);
-
-	SafeDeleteArray(m_idices);
-	if (m_dof != 0 && m_nodeCount != 0)
-	{
-		m_idices = new int[m_nodeCount];
-	}
+	StrideDataArray::Init(nodeDOF, nodeCount);
+	m_idices.resize(nodeCount);
 }
 
-inline IndexedStrideDataFixedArray::IndexedStrideDataFixedArray() :m_idices(NULL)
+inline IndexedStrideDataArray::IndexedStrideDataArray() :m_idices(NULL)
 {
 };
 
-inline IndexedStrideDataFixedArray::~IndexedStrideDataFixedArray()
+inline IndexedStrideDataArray::~IndexedStrideDataArray()
 {
-	SafeDeleteArray(m_idices);
 }
 
-inline void IndexedStrideDataFixedArray::MakeCopy(IndexedStrideDataFixedArray& other) const
+inline void IndexedStrideDataArray::MakeCopy(IndexedStrideDataArray& other) const
 {
-	other.Init(m_dof, m_nodeCount);
-	for (int i = 0; i < m_nodeCount; ++i)
-	{
-		for (int j = 0; j < m_dof; ++j)
-		{
-			other(i, j) = operator()(i, j);
-		}
-		other[i] = operator[](i);
-	}
+	other.m_idices = m_idices;
+	other.m_data = m_data;
+	other.m_dof = m_dof;
 }

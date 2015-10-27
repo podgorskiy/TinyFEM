@@ -17,7 +17,7 @@ public:
 
 	static IElement* Create();
 
-	virtual void CalcK(const StrideDataFixedArray& nodes, const tfem::MaterialPtr mat, std::vector<Eigen::Triplet<float> >& tripletVector);
+	virtual void CalcK(const StrideDataArray& nodes, const tfem::MaterialPtr mat, std::vector<Eigen::Triplet<float> >& tripletVector);
 
 	virtual tfem::Material* GetMaterial();
 

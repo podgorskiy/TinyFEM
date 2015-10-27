@@ -42,10 +42,10 @@ public:
 
 	void SaveToFile(const std::string& filename) const;
 	const ProblemDescription& GetProblemDescription() const;
-	const StrideDataFixedArray& GetNodes() const;
+	const StrideDataArray& GetNodes() const;
 	const ElementsContainer& GetElements() const;
 	const Eigen::VectorXf& GetDeforms() const;
-	const IndexedStrideDataFixedArray& GetNodalForceList() const;
+	const IndexedStrideDataArray& GetNodalForceList() const;
 	const NodalConstraintList& GetNodalConstraintList() const;
 
 	void UpdateNodes(MeshRenderer* meshRenderer) const;

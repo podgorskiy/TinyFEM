@@ -2,7 +2,7 @@
 #include "StrideDataFixedArray.h"
 #include "XMLDataUtils.h"
 
-ReadNodalForceFunctor::ReadNodalForceFunctor(IndexedStrideDataFixedArray& loads) :loads(loads), m_iterator(0){};
+ReadNodalForceFunctor::ReadNodalForceFunctor(IndexedStrideDataArray& loads) :loads(loads), m_iterator(0){};
 
 void ReadNodalForceFunctor::operator()(TiXmlElement* loadElement)
 {
